@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
+  TextInput,
   Button,
   TouchableOpacity,
   Dimensions,
@@ -12,32 +13,113 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import InputText from '../../components/TextInput';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { emailValidator } from '../../helpers/emailValidator'
+import { passwordValidator } from '../../helpers/passwordValidator'
 
-const index = () => {
+
+
+export default function index({ navigation }) {
+  const [email, setEmail] = useState({ value: '', error: '' })
+  const [password, setPassword] = useState({ value: '', error: '' })
+  const [user, setUser] = useState({
+    nama: '',
+    kelas: '',
+    role: '',
+    email: '',
+  })
+
+  const onLoginPressed = () => {
+    const emailError = emailValidator(email.value)
+    const passwordError = passwordValidator(password.value)
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError })
+      setPassword({ ...password, error: passwordError })
+    }
+    fetch('http://192.168.43.39:1010/api/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: (email.value),
+        password: (password.value)
+      })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.user != null) {
+          setUser({
+            nama: responseJson.user.nama,
+            kelas: responseJson.user.kelas,
+            role: responseJson.user.role,
+            email: responseJson.user.email,
+          })
+          navigation.navigate('MainApp')
+        } else {
+          alert(responseJson.user)
+          setEmail({ ...email, error: responseJson.error })
+        }
+      })
+  }
+
   return (
     <View style={styles.container}>
-    <StatusBar backgroundColor={ColorPrimary} barStyle="light-content"/>
+      <StatusBar backgroundColor={ColorPrimary} barStyle="light-content" />
       <View style={styles.header}></View>
       <View style={styles.footer}>
         <View style={styles.boxLogin}>
           <Text style={styles.text_header}>Selamat Datang</Text>
-          <InputText Title="Username" Icon="user" />
-          <InputText Title="Password" Icon="key" />
-          <View style={styles.button}>
-            <LinearGradient colors={['#a1ffea','#86E3CE']} style={styles.signIn}>
+          {/* <InputText Title="Email" Icon="user" /> */}
+          <View style={{ marginBottom: 20 }}>
+            <Text style={styles.title}>E-mail</Text>
+            <View style={styles.containerInput}>
+              <FontAwesome name="user" color={ColorPrimary} size={25} />
+              <TextInput
+                label="Email"
+                returnKeyType="next"
+                value={email.value}
+                onChangeText={(text) => setEmail({ value: text, error: '' })}
+                error={!!email.error}
+                errorText={email.error}
+                autoCapitalize="none"
+                autoCompleteType="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                style={styles.textInput}
+                placeholder="Masukkan E-mail"
+              />
+            </View>
+          </View>
+          {/* <InputText Title="Password" Icon="key" /> */}
+          <View style={{ marginBottom: 20 }}>
+            <Text style={styles.title}>Password</Text>
+            <View style={styles.containerInput}>
+              <FontAwesome name="key" color={ColorPrimary} size={25} />
+              <TextInput
+                label="Password"
+                returnKeyType="done"
+                value={password.value}
+                onChangeText={(text) => setPassword({ value: text, error: '' })}
+                error={!!password.error}
+                errorText={password.error}
+                secureTextEntry
+                style={styles.textInput}
+                placeholder="Masukkan Password"
+              />
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={onLoginPressed}>
+            <LinearGradient colors={['#a1ffea', '#86E3CE']} style={styles.signIn}>
               <Text style={styles.text_button}>Masuk</Text>
             </LinearGradient>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
-
-export default index;
 
 const styles = StyleSheet.create({
   container: {
@@ -110,5 +192,24 @@ const styles = StyleSheet.create({
   textSign: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  title: {
+    color: '#05375a',
+    fontSize: 15,
+  },
+  textInput: {
+    flex: 1,
+    borderBottomWidth: 2,
+    borderBottomColor: ColorPrimary,
+    marginTop: -12,
+    marginLeft: 15,
+    marginRight: 5,
+    color: ColorPrimary,
+    fontSize: 20,
+  },
+  containerInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
   },
 });
