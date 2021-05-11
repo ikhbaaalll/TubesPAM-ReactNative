@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,8 +17,7 @@ import InputText from '../../components/TextInput';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { emailValidator } from '../../helpers/emailValidator'
 import { passwordValidator } from '../../helpers/passwordValidator'
-
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function index({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -37,7 +36,7 @@ export default function index({ navigation }) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
     }
-    fetch('http://192.168.43.39:1010/api/login', {
+    fetch('http://192.168.43.152:1010/api/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -56,6 +55,12 @@ export default function index({ navigation }) {
             role: responseJson.user.role,
             email: responseJson.user.email,
           })
+
+          AsyncStorage.setItem('email', responseJson.user.email)
+          AsyncStorage.setItem('nama', responseJson.user.nama)
+          AsyncStorage.setItem('kelas', responseJson.user.kelas.toString())
+          AsyncStorage.setItem('role', responseJson.user.role)
+
           navigation.navigate('MainApp')
         } else {
           alert(responseJson.user)
