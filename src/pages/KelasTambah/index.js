@@ -6,13 +6,27 @@ import {
   TextInput,
   Picker,
   ScrollView,
-  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonIcon, MyDatePicker, PickDateTime, ButtonCustom} from '../../components';
+import {
+  ButtonIcon,
+  MyDatePicker,
+  PickDateTime,
+  ButtonCustom,
+} from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 
 const KelasTambah = () => {
+  var [isPress, setIsPress] = React.useState(false);
+
+  var touchProps = {
+    activeOpacity: 1,
+    underlayColor: 'white',
+    onHideUnderlay: () => setIsPress(false),
+    onShowUnderlay: () => setIsPress(true)
+  };
+
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
@@ -83,7 +97,9 @@ const KelasTambah = () => {
               />
             </View>
             <PickDateTime />
-            <ButtonCustom title="Tambah"/>
+            <TouchableHighlight {...touchProps}>
+              <ButtonCustom title="Tambah" isPress={isPress} />
+            </TouchableHighlight>
           </View>
         </View>
       </View>

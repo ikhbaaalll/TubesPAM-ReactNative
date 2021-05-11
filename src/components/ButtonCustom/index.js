@@ -1,13 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 
-const ButtonCustom = ({title}) => {
+const ButtonCustom = ({title, isPress}) => {
   return (
     <View style={styles.box}>
       <View style={styles.container}>
-        <LinearGradient colors={['#a1ffea', '#86E3CE']} style={styles.gradien}>
-          <Text style={styles.text_button}>{title}</Text>
+        <LinearGradient colors={['#a1ffea', '#86E3CE']} style={isPress ?  styles.gradienBaru : styles.gradien}>
+          <Text style={isPress ? styles.text_buttonBaru : styles.text_button}>{title}</Text>
         </LinearGradient>
       </View>
     </View>
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   },
   box: {
     // backgroundColor: '#31ec92',
-    marginTop:30,
+    marginTop: 30,
     paddingBottom: 30,
   },
   gradien: {
@@ -43,9 +44,24 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 8,
   },
+  gradienBaru: {
+    width: '40%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 5,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 30,
+  },
   text_button: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold',
+  },
+  text_buttonBaru: {
+    color: '#fff',
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });
