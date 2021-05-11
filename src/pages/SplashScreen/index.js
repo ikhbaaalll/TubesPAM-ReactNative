@@ -5,7 +5,7 @@ import {Splash, SplashBackground} from '../../assets';
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-        navigation.replace('Login')
+        navigation.replace('MainApp')
     }, 3000);
   },[navigation]);
 
