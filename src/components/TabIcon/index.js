@@ -8,7 +8,7 @@ import {
   Iconclass,
   IconclassActive,
 } from '../../assets';
-import {ColorPrimary, ColorSecondary, CenterItem} from '../../utils/constanta';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 
 const TabIcon = ({label, isFocused, onPress, onLongPress}) => {
   const Icon = () => {
