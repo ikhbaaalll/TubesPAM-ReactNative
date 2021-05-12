@@ -24,86 +24,82 @@ const KelasTambah = () => {
     activeOpacity: 1,
     underlayColor: 'white',
     onHideUnderlay: () => setIsPress(false),
-    onShowUnderlay: () => setIsPress(true)
+    onShowUnderlay: () => setIsPress(true),
+    onPress: () => console.log('Button Custom Pressed'),
   };
 
   return (
-    <ScrollView style={{backgroundColor: '#fff'}}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.text_header}>Tambah Kelas</Text>
-        </View>
-        <View style={styles.footer}>
-          {/* <Text style={styles.text_footer}>Data Kelas</Text> */}
-          <View style={styles.box}>
-            <View style={styles.picker}>
-              <Text style={styles.title}>Mata Pelajaran</Text>
-              <Picker
-                selectedValue={'Pilih Pelajaran'}
-                //   style={styles.picker}
-                //   onValueChange={(itemValue, itemIndex) =>
-                //     setSelectedValue(itemValue)
-                //   }
-              >
-                <Picker.Item label="Pilih Mata Pelajaran" value=" " />
-                <Picker.Item label="Matematika" value="Matematika" />
-                <Picker.Item label="Bahasa Inggris" value="Bahasa Inggris" />
-                <Picker.Item
-                  label="Bahasa Indonesia"
-                  value="Bahasa Indonesia"
-                />
-                <Picker.Item
-                  label="Ilmu Pengetahuan Alam"
-                  value="Ilmu Pengetahuan Alam"
-                />
-                <Picker.Item
-                  label="Ilmu Pengetahuan Sosial"
-                  value="Ilmu Pengetahuan Sosial"
-                />
-                <Picker.Item label="Seni Budaya" value="Seni Budaya" />
-                <Picker.Item
-                  label="Pendidikan Pancasila dan Kewarganegaraan"
-                  value="Pendidikan Pancasila dan Kewarganegaraan"
-                />
-                <Picker.Item
-                  label="Pendidikan Jasmani, Olahraga, dan Kesehatan"
-                  value="Matematika"
-                />
-              </Picker>
-            </View>
-            <Text style={styles.title}>Topik</Text>
-            <View style={styles.containerInput}>
-              <View>
-                <TextInput
-                  label="Topik"
-                  // returnKeyType="next"
-                  // value={email.value}
-                  // onChangeText={text => setEmail({value: text, error: ''})}
-                  // error={!!email.error}
-                  // errorText={email.error}
-                  autoCapitalize="none"
-                  // autoCompleteType="email"
-                  // textContentType="emailAddress"
-                  // keyboardType="email-address"
-                  style={styles.textInput}
-                  placeholder="Topik Bahasan"
-                />
-              </View>
-              <Feather
-                name="tag"
-                color={ColorPrimary}
-                size={25}
-                style={{marginBottom: 5}}
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.text_header}>Tambah Kelas</Text>
+      </View>
+      <View style={styles.footer}>
+        <View style={styles.boxShadow}></View>
+        <ScrollView>
+          <View style={styles.picker}>
+            <Text style={styles.title}>Mata Pelajaran</Text>
+            <Picker
+              selectedValue={'Pilih Pelajaran'}
+              //   style={styles.picker}
+              //   onValueChange={(itemValue, itemIndex) =>
+              //     setSelectedValue(itemValue)
+              //   }
+            >
+              <Picker.Item label="Pilih Mata Pelajaran" value=" " />
+              <Picker.Item label="Matematika" value="Matematika" />
+              <Picker.Item label="Bahasa Inggris" value="Bahasa Inggris" />
+              <Picker.Item label="Bahasa Indonesia" value="Bahasa Indonesia" />
+              <Picker.Item
+                label="Ilmu Pengetahuan Alam"
+                value="Ilmu Pengetahuan Alam"
+              />
+              <Picker.Item
+                label="Ilmu Pengetahuan Sosial"
+                value="Ilmu Pengetahuan Sosial"
+              />
+              <Picker.Item label="Seni Budaya" value="Seni Budaya" />
+              <Picker.Item
+                label="Pendidikan Pancasila dan Kewarganegaraan"
+                value="Pendidikan Pancasila dan Kewarganegaraan"
+              />
+              <Picker.Item
+                label="Pendidikan Jasmani, Olahraga, dan Kesehatan"
+                value="Matematika"
+              />
+            </Picker>
+          </View>
+          <Text style={styles.title}>Topik</Text>
+          <View style={styles.containerInput}>
+            <View>
+              <TextInput
+                label="Topik"
+                // returnKeyType="next"
+                // value={email.value}
+                // onChangeText={text => setEmail({value: text, error: ''})}
+                // error={!!email.error}
+                // errorText={email.error}
+                autoCapitalize="none"
+                // autoCompleteType="email"
+                // textContentType="emailAddress"
+                // keyboardType="email-address"
+                style={styles.textInput}
+                placeholder="Topik Bahasan"
               />
             </View>
-            <PickDateTime />
-            <TouchableHighlight {...touchProps}>
-              <ButtonCustom title="Tambah" isPress={isPress} />
-            </TouchableHighlight>
+            <Feather
+              name="tag"
+              color={ColorPrimary}
+              size={25}
+              style={{marginBottom: 5}}
+            />
           </View>
-        </View>
+          <PickDateTime />
+          <TouchableHighlight {...touchProps}>
+            <ButtonCustom title="Tambah" isPress={isPress} />
+          </TouchableHighlight>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -117,6 +113,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     justifyContent: 'flex-end',
+    paddingTop: 20,
     // alignItems: 'center',
     paddingHorizontal: 20,
     paddingBottom: 50,
@@ -126,6 +123,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    paddingTop: 30,
+    paddingHorizontal: 30,
+  },
+  boxShadow: {
+    borderWidth: 2,
+    borderRadius: 50,
+    borderColor: ColorPrimary,
+    shadowColor: '#005343',
+    // marginBottom: 20,
+    elevation: 15,
   },
   text_header: {
     color: '#fff',
@@ -186,10 +193,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  box: {
-    marginTop: 50,
-    marginHorizontal: 30,
-  },
   containerInput: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -204,6 +207,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   picker: {
+    paddingTop: 30,
     marginBottom: 30,
     borderBottomWidth: 2,
     borderBottomColor: ColorPrimary,
