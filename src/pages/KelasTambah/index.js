@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableHighlight,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import {
   ButtonIcon,
   MyDatePicker,
@@ -18,17 +18,25 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 
 const KelasTambah = () => {
-  var [isPress, setIsPress] = React.useState(false);
+  const [isPress, setIsPress] = React.useState(false);
+  const [pelajaran, setPelajaran] = useState('pilih');
+  const [judul, setJudul] = useState('');
+  const [tanggal, setTanggal] = useState('');
+  const [waktu, setWaktu] = useState('');
 
-  var touchProps = {
+  const touchProps = {
     activeOpacity: 1,
     underlayColor: 'white',
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true)
   };
 
+  const onPressAddKelas = () => {
+    alert(tanggal + ' ' + waktu)
+  }
+
   return (
-    <ScrollView style={{backgroundColor: '#fff'}}>
+    <ScrollView style={{ backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>Tambah Kelas</Text>
@@ -39,15 +47,16 @@ const KelasTambah = () => {
             <View style={styles.picker}>
               <Text style={styles.title}>Mata Pelajaran</Text>
               <Picker
-                selectedValue={'Pilih Pelajaran'}
-                //   style={styles.picker}
-                //   onValueChange={(itemValue, itemIndex) =>
-                //     setSelectedValue(itemValue)
-                //   }
+                selectedValue={pelajaran}
+                onValueChange={(itemValue, itemIndex) => setPelajaran(itemValue)}
               >
-                <Picker.Item label="Pilih Mata Pelajaran" value=" " />
-                <Picker.Item label="Matematika" value="Matematika" />
-                <Picker.Item label="Bahasa Inggris" value="Bahasa Inggris" />
+                <Picker.Item label="Pilih Mata Pelajaran" value="pilih" />
+                <Picker.Item
+                  label="Matematika"
+                  value="Matematika" />
+                <Picker.Item
+                  label="Bahasa Inggris"
+                  value="Bahasa Inggris" />
                 <Picker.Item
                   label="Bahasa Indonesia"
                   value="Bahasa Indonesia"
@@ -67,7 +76,7 @@ const KelasTambah = () => {
                 />
                 <Picker.Item
                   label="Pendidikan Jasmani, Olahraga, dan Kesehatan"
-                  value="Matematika"
+                  value="Pendidikan Jasmani, Olahraga, dan Kesehatan"
                 />
               </Picker>
             </View>
@@ -75,16 +84,10 @@ const KelasTambah = () => {
             <View style={styles.containerInput}>
               <View>
                 <TextInput
+                  value={judul}
+                  onChangeText={text => setJudul(text)}
                   label="Topik"
-                  // returnKeyType="next"
-                  // value={email.value}
-                  // onChangeText={text => setEmail({value: text, error: ''})}
-                  // error={!!email.error}
-                  // errorText={email.error}
                   autoCapitalize="none"
-                  // autoCompleteType="email"
-                  // textContentType="emailAddress"
-                  // keyboardType="email-address"
                   style={styles.textInput}
                   placeholder="Topik Bahasan"
                 />
@@ -93,11 +96,11 @@ const KelasTambah = () => {
                 name="tag"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
-            <PickDateTime />
-            <TouchableHighlight {...touchProps}>
+            <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} />
+            <TouchableHighlight {...touchProps} onPress={onPressAddKelas}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
           </View>
