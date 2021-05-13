@@ -7,5 +7,6 @@ import Auth from './Auth'
 import KelasTambah from './KelasTambah'
 import KelasList from './KelasList'
 import KelasPertemuan from './KelasPertemuan'
+import KelasDetail from './KelasDetail'
 
-export { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan }
+export { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan, KelasDetail }
