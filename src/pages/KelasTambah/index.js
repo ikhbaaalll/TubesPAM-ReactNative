@@ -20,9 +20,9 @@ import Feather from 'react-native-vector-icons/Feather';
 const KelasTambah = () => {
   const [isPress, setIsPress] = React.useState(false);
   const [pelajaran, setPelajaran] = useState('pilih');
-  const [judul, setJudul] = useState('');
-  const [tanggal, setTanggal] = useState('');
-  const [waktu, setWaktu] = useState('');
+  const [judul, setJudul] = useState(null);
+  const [tanggal, setTanggal] = useState(null);
+  const [waktu, setWaktu] = useState(null);
 
   const touchProps = {
     activeOpacity: 1,
@@ -32,6 +32,23 @@ const KelasTambah = () => {
   };
 
   const onPressAddKelas = () => {
+    if (judul && tanggal && waktu) {
+      fetch('http://192.168.43.152:1010/api/kelas', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value,
+        }),
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+
+        });
+    }
     alert(tanggal + ' ' + waktu)
   }
 
