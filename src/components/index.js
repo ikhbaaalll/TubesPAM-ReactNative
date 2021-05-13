@@ -7,6 +7,6 @@ import ButtonCustom from './ButtonCustom'
 import ButtonPertemuan from './ButtonPertemuan'
 import ArrowBack from './ArrowBack'
 import DateTimeChooser from './DateTimeChooser'
-import StatusHadir from './StatusHadir'
+import StatusKomponen from './StatusKomponen'
 
-export { BottomNavigator, ButtonIcon, TabIcon, MyDatePicker, PickDateTime, ButtonCustom, ButtonPertemuan, ArrowBack, DateTimeChooser, StatusHadir }
+export { BottomNavigator, ButtonIcon, TabIcon, MyDatePicker, PickDateTime, ButtonCustom, ButtonPertemuan, ArrowBack, DateTimeChooser, StatusKomponen }
