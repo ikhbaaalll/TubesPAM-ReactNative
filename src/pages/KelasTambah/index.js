@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,13 +8,8 @@ import {
   ScrollView,
   TouchableHighlight,
 } from 'react-native';
-import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import {
-  ButtonIcon,
-  MyDatePicker,
-  PickDateTime,
-  ButtonCustom,
-} from '../../components';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import {PickDateTime, ButtonCustom, ArrowBack, DateTimeChooser} from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 
 const KelasTambah = () => {
@@ -33,31 +28,31 @@ const KelasTambah = () => {
   };
 
   const onPressAddKelas = () => {
-    alert(tanggal + ' ' + waktu)
-  }
+    alert(tanggal + ' ' + waktu);
+  };
 
   return (
-    <ScrollView style={{ backgroundColor: '#fff' }}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.text_header}>Tambah Kelas</Text>
-        </View>
-        <View style={styles.footer}>
-          {/* <Text style={styles.text_footer}>Data Kelas</Text> */}
-          <View style={styles.box}>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <ArrowBack />
+        <Text style={styles.text_header}>Tambah Kelas</Text>
+      </View>
+      <View style={styles.footer}>
+        {/* <Text style={styles.text_footer}>Data Kelas</Text> */}
+        <View style={styles.box}>
+        <View style={styles.boxShadow}></View>
+
+          <ScrollView style={{backgroundColor: '#fff'}}>
             <View style={styles.picker}>
               <Text style={styles.title}>Mata Pelajaran</Text>
               <Picker
                 selectedValue={pelajaran}
-                onValueChange={(itemValue, itemIndex) => setPelajaran(itemValue)}
-              >
+                onValueChange={(itemValue, itemIndex) =>
+                  setPelajaran(itemValue)
+                }>
                 <Picker.Item label="Pilih Mata Pelajaran" value="pilih" />
-                <Picker.Item
-                  label="Matematika"
-                  value="Matematika" />
-                <Picker.Item
-                  label="Bahasa Inggris"
-                  value="Bahasa Inggris" />
+                <Picker.Item label="Matematika" value="Matematika" />
+                <Picker.Item label="Bahasa Inggris" value="Bahasa Inggris" />
                 <Picker.Item
                   label="Bahasa Indonesia"
                   value="Bahasa Indonesia"
@@ -97,19 +92,17 @@ const KelasTambah = () => {
                 name="tag"
                 color={ColorPrimary}
                 size={25}
-                style={{ marginBottom: 5 }}
+                style={{marginBottom: 5}}
               />
             </View>
             <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} />
             <TouchableHighlight {...touchProps} onPress={onPressAddKelas}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
-          </View>
-          <PickDateTime />
-          <TouchableHighlight {...touchProps}>
-            <ButtonCustom title="Tambah" isPress={isPress} />
-          </TouchableHighlight>
-        </ScrollView>
+            {/* <DateTimeChooser mode="date" title="Pilih tanggal"/> */}
+            <DateTimeChooser mode="time" title="Pilih tanggal"/>
+          </ScrollView>
+        </View>
       </View>
     </View>
   );
@@ -124,9 +117,9 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    // flexDirection: 'row',
     paddingTop: 20,
-    // alignItems: 'center',
+    justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
@@ -143,7 +136,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    // marginBottom: 20,
     elevation: 15,
   },
   text_header: {
