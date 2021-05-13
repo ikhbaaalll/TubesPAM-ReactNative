@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonIcon, ArrowBack} from '../../components';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonIcon, ArrowBack } from '../../components';
 
 const KelasList = () => {
   return (
@@ -14,9 +14,14 @@ const KelasList = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <ButtonIcon title="IPA" />
-            <ButtonIcon title="IPS" />
-            <ButtonIcon title="MTK" />
+            <ButtonIcon title="Matematika" value="Matematika" />
+            <ButtonIcon title="B. Inggris" value="Bahasa Inggris" />
+            <ButtonIcon title="B. Indonesia" value="Bahasa Indonesia" />
+            <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" />
+            <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" />
+            <ButtonIcon title="PKN" value="Seni Budaya" />
+            <ButtonIcon title="Seni Budaya" value="Pendidikan Pancasila dan Kewarganegaraan" />
+            <ButtonIcon title="Pend. Jasmani" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" />
           </View>
         </ScrollView>
       </View>

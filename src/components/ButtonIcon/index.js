@@ -1,10 +1,12 @@
 import React from 'react';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
-import {IconBlackboard} from '../../assets';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { IconBlackboard } from '../../assets';
+import { useNavigation } from '@react-navigation/native';
 
-const ButtonIcon = ({title}) => {
+const ButtonIcon = ({ title, value }) => {
   var [isPress, setIsPress] = React.useState(false);
+  const navigation = useNavigation();
 
   var touchProps = {
     activeOpacity: 1,
@@ -13,8 +15,13 @@ const ButtonIcon = ({title}) => {
     onShowUnderlay: () => setIsPress(true),
     onPress: () => console.log('Button Icon Pressed'),
   };
+
+  const viewKelas = () => {
+    navigation.navigate('KelasPertemuan', { kelas: value })
+  }
+
   return (
-    <TouchableHighlight {...touchProps}>
+    <TouchableHighlight {...touchProps} onPress={viewKelas}>
       <View style={isPress ? styles.containerBaru : styles.container}>
         <IconBlackboard />
         <Text style={styles.text(isPress)}>{title}</Text>

@@ -1,23 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  Picker,
   ScrollView,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {PickDateTime, ButtonCustom, ArrowBack, DateTimeChooser} from '../../components';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonCustom, ArrowBack, DateTimeChooser } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
+import { Picker } from '@react-native-picker/picker'
+import AsyncStorage from '@react-native-community/async-storage';
 
-const KelasTambah = () => {
+const KelasTambah = ({ navigation }) => {
   const [isPress, setIsPress] = React.useState(false);
   const [pelajaran, setPelajaran] = useState('pilih');
-  const [judul, setJudul] = useState('');
-  const [tanggal, setTanggal] = useState('');
-  const [waktu, setWaktu] = useState('');
+  const [judul, setJudul] = useState(null);
+  const [tanggal, setTanggal] = useState(null);
+  const [waktu, setWaktu] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const touchProps = {
     activeOpacity: 1,
@@ -27,9 +30,47 @@ const KelasTambah = () => {
     onPress: () => console.log('Button Custom Pressed'),
   };
 
+  useEffect(() => {
+    const _session = async () => {
+      const getUserId = await AsyncStorage.getItem('id')
+      setUserId(getUserId)
+    }
+    _session()
+  }, [])
+
   const onPressAddKelas = () => {
-    alert(tanggal + ' ' + waktu);
-  };
+    if (judul && tanggal && waktu) {
+      fetch('http://192.168.43.39:1010/api/kelas', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: userId,
+          nama: judul,
+          pelajaran: pelajaran,
+          tanggal: tanggal,
+          waktu: waktu
+        }),
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.status) {
+            ToastAndroid.show("Sukses membuat kelas", ToastAndroid.SHORT);
+            navigation.navigate("Profil")
+          }
+        })
+    }
+  }
+
+  const getTanggal = (data) => {
+    setTanggal(data)
+  }
+
+  const getWaktu = (data) => {
+    setWaktu(data)
+  }
 
   return (
     <View style={styles.container}>
@@ -40,9 +81,9 @@ const KelasTambah = () => {
       <View style={styles.footer}>
         {/* <Text style={styles.text_footer}>Data Kelas</Text> */}
         <View style={styles.box}>
-        <View style={styles.boxShadow}></View>
+          <View style={styles.boxShadow}></View>
 
-          <ScrollView style={{backgroundColor: '#fff'}}>
+          <ScrollView style={{ backgroundColor: '#fff' }}>
             <View style={styles.picker}>
               <Text style={styles.title}>Mata Pelajaran</Text>
               <Picker
@@ -92,15 +133,15 @@ const KelasTambah = () => {
                 name="tag"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
-            <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} />
+            <DateTimeChooser getTanggal={getTanggal} getWaktu={getWaktu} mode="time" title={waktu ? tanggal + ' - ' + waktu : 'Pilih waktu'} />
+            {/* <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} /> */}
             <TouchableHighlight {...touchProps} onPress={onPressAddKelas}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
             {/* <DateTimeChooser mode="date" title="Pilih tanggal"/> */}
-            <DateTimeChooser mode="time" title="Pilih tanggal"/>
           </ScrollView>
         </View>
       </View>
@@ -194,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: -12,
     // marginLeft: 15,
     marginRight: 5,
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
   },
   containerInput: {
