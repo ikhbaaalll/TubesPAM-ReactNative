@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah } from '../pages';
+import { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan } from '../pages';
 import { BottomNavigator } from '../components'
 
 const Stack = createStackNavigator();
@@ -13,7 +13,7 @@ const MainApp = () => {
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="QrScan">
       <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
       <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} />
-      <Tab.Screen name="Kelas" component={KelasTambah} style={styles.menu} />
+      <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
     </Tab.Navigator>
   );
 };
@@ -39,6 +39,11 @@ const Route = () => {
       <Stack.Screen
         name="MainApp"
         component={MainApp}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KelasPertemuan"
+        component={KelasPertemuan}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
