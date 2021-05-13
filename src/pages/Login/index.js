@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,14 +14,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InputText from '../../components/TextInput';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {emailValidator} from '../../helpers/emailValidator';
-import {passwordValidator} from '../../helpers/passwordValidator';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { emailValidator } from '../../helpers/emailValidator';
+import { passwordValidator } from '../../helpers/passwordValidator';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function index({navigation}) {
-  const [email, setEmail] = useState({value: '', error: ''});
-  const [password, setPassword] = useState({value: '', error: ''});
+export default function index({ navigation }) {
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
   const [user, setUser] = useState({
     nama: '',
     kelas: '',
@@ -33,10 +33,10 @@ export default function index({navigation}) {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
-      setEmail({...email, error: emailError});
-      setPassword({...password, error: passwordError});
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
     }
-    fetch('http://192.168.43.152:1010/api/login', {
+    fetch('http://192.168.43.39:1010/api/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -57,6 +57,7 @@ export default function index({navigation}) {
             email: responseJson.user.email,
           });
 
+          AsyncStorage.setItem('id', responseJson.user.id.toString());
           AsyncStorage.setItem('email', responseJson.user.email);
           AsyncStorage.setItem('nama', responseJson.user.nama);
           AsyncStorage.setItem('kelas', responseJson.user.kelas.toString());
@@ -65,7 +66,7 @@ export default function index({navigation}) {
           navigation.navigate('MainApp');
         } else {
           alert(responseJson.user);
-          setEmail({...email, error: responseJson.error});
+          setEmail({ ...email, error: responseJson.error });
         }
       });
   };
@@ -78,7 +79,7 @@ export default function index({navigation}) {
         <View style={styles.boxLogin}>
           <Text style={styles.text_header}>Selamat Datang</Text>
           {/* <InputText Title="Email" Icon="user" /> */}
-          <View style={{marginBottom: 20}}>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.title}>E-mail</Text>
             <View style={styles.containerInput}>
               <FontAwesome name="user-o" color={ColorPrimary} size={25} />
@@ -86,7 +87,7 @@ export default function index({navigation}) {
                 label="Email"
                 returnKeyType="next"
                 value={email.value}
-                onChangeText={text => setEmail({value: text, error: ''})}
+                onChangeText={text => setEmail({ value: text, error: '' })}
                 error={!!email.error}
                 errorText={email.error}
                 autoCapitalize="none"
@@ -99,7 +100,7 @@ export default function index({navigation}) {
             </View>
           </View>
           {/* <InputText Title="Password" Icon="key" /> */}
-          <View style={{marginBottom: 20}}>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.title}>Password</Text>
             <View style={styles.containerInput}>
               <FontAwesome name="key" color={ColorPrimary} size={25} />
@@ -107,7 +108,7 @@ export default function index({navigation}) {
                 label="Password"
                 returnKeyType="done"
                 value={password.value}
-                onChangeText={text => setPassword({value: text, error: ''})}
+                onChangeText={text => setPassword({ value: text, error: '' })}
                 error={!!password.error}
                 errorText={password.error}
                 secureTextEntry
