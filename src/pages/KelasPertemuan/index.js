@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,23 +7,43 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonPertemuan, ArrowBack} from '../../components';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonPertemuan, ArrowBack } from '../../components';
 
-const KelasPertemuan = () => {
+const KelasPertemuan = ({ route, navigation }) => {
+  const [listKelas, setListKelas] = useState([])
+  const { kelas } = route.params
+
+  useEffect(() => {
+    fetch('http://192.168.43.39:1010/api/kelas/list', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pelajaran: JSON.stringify(kelas).replace(/\"/g, "")
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => setListKelas(responseJson))
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack/>
-        <Text style={styles.text_header}>Matematika</Text>
+        <ArrowBack />
+        <Text style={styles.text_header}>{JSON.stringify(kelas).replace(/\"/g, "")}</Text>
       </View>
       <View style={styles.footer}>
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-              <ButtonPertemuan topik="Klasifikasi makhluk hidup"/>
-              <ButtonPertemuan topik="Menggunakan apapun"/>
-              <ButtonPertemuan topik="nyoba aja terus"/>
+            {
+              listKelas.map(data => {
+                return <ButtonPertemuan key={data.id} topik={data.nama} />
+              })
+            }
           </View>
         </ScrollView>
       </View>
