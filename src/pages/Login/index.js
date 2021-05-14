@@ -36,7 +36,7 @@ export default function index({ navigation }) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
     }
-    fetch('http://192.168.43.39:1010/api/login', {
+    fetch('http://192.168.43.152:1010/api/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -65,7 +65,7 @@ export default function index({ navigation }) {
 
           navigation.navigate('MainApp');
         } else {
-          alert(responseJson.user);
+          alert("Akun tidak terdaftar");
           setEmail({ ...email, error: responseJson.error });
         }
       });
