@@ -9,12 +9,24 @@ import {
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonPertemuan, ArrowBack } from '../../components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const KelasPertemuan = ({ route, navigation }) => {
   const [listKelas, setListKelas] = useState([])
   const { kelas } = route.params
+  const [user, setUser] = useState('2')
 
   useEffect(() => {
+    const _getUser = async () => {
+      const role = await AsyncStorage.getItem('role')
+      if (!role) {
+        navigation.replace('Login')
+        setUser(null)
+      }
+      setUser(role)
+    }
+    _getUser()
+
     fetch('http://192.168.43.152:1010/api/kelas/list', {
       method: 'POST',
       headers: {
@@ -27,7 +39,6 @@ const KelasPertemuan = ({ route, navigation }) => {
     })
       .then(response => response.json())
       .then(responseJson => setListKelas(responseJson))
-    console.log(listKelas)
   }, [])
 
   return (
@@ -42,7 +53,7 @@ const KelasPertemuan = ({ route, navigation }) => {
           <View style={styles.footerBox}>
             {
               listKelas.map(data => {
-                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} />
+                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} />
               })
             }
           </View>
