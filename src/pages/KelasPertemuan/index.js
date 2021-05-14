@@ -15,7 +15,7 @@ const KelasPertemuan = ({ route, navigation }) => {
   const { kelas } = route.params
 
   useEffect(() => {
-    fetch('http://192.168.43.39:1010/api/kelas/list', {
+    fetch('http://192.168.43.152:1010/api/kelas/list', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -41,7 +41,7 @@ const KelasPertemuan = ({ route, navigation }) => {
           <View style={styles.footerBox}>
             {
               listKelas.map(data => {
-                return <ButtonPertemuan key={data.id} topik={data.nama} />
+                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} />
               })
             }
           </View>
