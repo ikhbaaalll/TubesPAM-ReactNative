@@ -19,8 +19,8 @@ const KelasList = () => {
             <ButtonIcon title="B.Ind" value="Bahasa Indonesia" />
             <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" />
             <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" />
-            <ButtonIcon title="PKN" value="Seni Budaya" />
-            <ButtonIcon title="Seni" value="Pendidikan Pancasila dan Kewarganegaraan" />
+            <ButtonIcon title="PKN" value="Pendidikan Pancasila dan Kewarganegaraan" />
+            <ButtonIcon title="Seni" value="Seni Budaya" />
             <ButtonIcon title="PJOK" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" />
           </View>
         </ScrollView>
