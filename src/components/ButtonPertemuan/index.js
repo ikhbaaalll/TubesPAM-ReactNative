@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {Qrcode, QrcodeActive} from '../../assets';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { Qrcode, QrcodeActive } from '../../assets';
+import { useNavigation } from '@react-navigation/native';
 
-const ButtonPertemuan = ({topik}) => {
+const ButtonPertemuan = ({ topik, id }) => {
   var [isPress, setIsPress] = React.useState(false);
+  const navigation = useNavigation();
 
   var touchProps = {
     activeOpacity: 1,
@@ -21,23 +23,26 @@ const ButtonPertemuan = ({topik}) => {
   };
   var [isQrPress, setIsQrPress] = React.useState(false);
 
+  const KelasDetail = () => {
+    navigation.navigate('KelasDetail', { kelasId: id })
+  }
+
   var qrProps = {
     activeOpacity: 1,
     underlayColor: 'white',
     onHideUnderlay: () => setIsQrPress(false),
     onShowUnderlay: () => setIsQrPress(true),
-    onPress: () => console.log('Button qr Pressed'),
   };
   return (
-    <TouchableHighlight {...touchProps}>
+    <TouchableHighlight {...touchProps} onPress={KelasDetail}>
       <View style={isPress ? styles.containerBaru : styles.container}>
         <View style={styles.containerDalam}>
-          <Text style={styles.title}>Pertemuan 1</Text>
+          <Text style={styles.title}>{topik}</Text>
           <Text style={styles.topik}>{topik}</Text>
         </View>
         <TouchableHighlight {...qrProps}>
           <View style={isQrPress ? styles.boxIconBaru : styles.boxIcon}>
-          {isQrPress ? <QrcodeActive /> : <Qrcode />}
+            {isQrPress ? <QrcodeActive /> : <Qrcode />}
           </View>
         </TouchableHighlight>
       </View>
