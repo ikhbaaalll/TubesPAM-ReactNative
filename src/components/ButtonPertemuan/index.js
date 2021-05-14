@@ -14,7 +14,7 @@ import { Qrcode, QrcodeActive, Mola } from '../../assets';
 import { ButtonCustom, QrCode } from '../../components';
 import { useNavigation } from '@react-navigation/native';
 
-const ButtonPertemuan = ({ topik, id }) => {
+const ButtonPertemuan = ({ topik, id, status, pelajaran }) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
   var [isQrPress, setIsQrPress] = React.useState(false);
@@ -69,14 +69,14 @@ const ButtonPertemuan = ({ topik, id }) => {
         <Modal isVisible={isModalVisible}>
           <ScrollView style={styles.modal}>
             {/* Ganti gambar di bagian source */}
-            <QrCode source={Mola} />
+            <QrCode source={Mola} status={status} id={id} />
             <Text style={styles.nip}>Pelajaran</Text>
             <Text style={styles.nama}>
-              Pendidikan Jasmani, Olahraga, dan Kesehatan
+              {pelajaran}
             </Text>
             <Text style={styles.nip}>Topik</Text>
             <Text style={styles.nama}>
-              Kebugaran Jasmani dengan permainan bola besar
+              {topik}
             </Text>
             <TouchableHighlight {...modalProps} onPress={toggleModal} style={{ marginBottom: 50 }}>
               <ButtonCustom title="Tutup" isPress={isModalPress} />
