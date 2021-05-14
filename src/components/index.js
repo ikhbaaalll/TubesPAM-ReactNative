@@ -9,6 +9,7 @@ import ArrowBack from './ArrowBack';
 import DateTimeChooser from './DateTimeChooser';
 import StatusKomponen from './StatusKomponen';
 import QrCode from './QrCode';
+import ItemSiswa from './ItemSiswa'
 
 export {
   BottomNavigator,
@@ -22,4 +23,5 @@ export {
   DateTimeChooser,
   StatusKomponen,
   QrCode,
+  ItemSiswa
 };
