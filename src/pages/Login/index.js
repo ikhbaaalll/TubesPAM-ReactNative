@@ -62,7 +62,8 @@ export default function index({ navigation }) {
           AsyncStorage.setItem('nama', responseJson.user.nama);
           AsyncStorage.setItem('kelas', responseJson.user.kelas.toString());
           AsyncStorage.setItem('role', responseJson.user.role);
-
+          setEmail({ ...email, value: '' })
+          setPassword({ ...password, value: '' })
           navigation.navigate('MainApp');
         } else {
           alert("Akun tidak terdaftar");
