@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,42 @@ import {
   ScrollView,
   ImageBackground,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonIcon, ArrowBack, StatusKomponen} from '../../components';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonIcon, ArrowBack, StatusKomponen } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 
-const KelasDetail = () => {
+const KelasDetail = ({ route, navigation }) => {
   const [hadir, setHadir] = useState(true);
+  const { kelasId } = route.params
+  const [role, setRole] = useState('2')
+  const [status, setStatus] = useState('0')
+  const [detail, setDetail] = useState({
+    nama: '',
+    pelajaran: '',
+    tanggal: '',
+    waktu: '',
+    status: '',
+    user: {
+      nama: ''
+    }
+  });
+  const [kelas, setKelas] = useState([]);
+
+  useEffect(() => {
+    fetch('http://192.168.43.152:1010/api/kelas/show', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: JSON.stringify(kelasId).replace(/\"/g, "")
+      }),
+    })
+      .then(response => response.json())
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setRole(responseJson.kelas.user.role), setStatus(responseJson.kelas.status) })
+    console.log(status)
+  }, [])
 
   const icon = hadir => {
     return hadir ? (
@@ -24,13 +54,8 @@ const KelasDetail = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        {/* Keterangan disini bisa diisi pake keterangan */}
-        {/* // untuk view di siswa hadir */}
-        <ArrowBack user="siswa" status="belum" type="detail" />
-        {/* <ArrowBack user="siswa" status="belum" type="detail"/>  untuk view di siswa ga hadir */}
-        {/* <ArrowBack user="guru" status="belum" type="detail"/> untuk view di guru kalau kelas selesai */}
-        {/* <ArrowBack user="siswa" status="belum" type="detail"/> untuk view di guru kalau kelas belum */}
-        <Text style={styles.text_header}>Pertemuan 1</Text>
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={status == '0' ? 'belum' : 'selesai'} type="detail" />
+        <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>
         <View style={styles.boxShadow}></View>
@@ -38,29 +63,35 @@ const KelasDetail = () => {
           <View style={styles.footerBox}>
             <View style={styles.profilBox}>
               <Text style={styles.nip}>Guru</Text>
-              <Text style={styles.nama}>Fikri Halim Ch Semoga S.Kom</Text>
+              <Text style={styles.nama}>{detail.user.nama}</Text>
               <Text style={styles.nip}>Pelajaran</Text>
               <Text style={styles.nama}>
-                Pendidikan Jasmani, Olahraga, dan Kesehatan
+                {detail.pelajaran}
               </Text>
               <Text style={styles.nip}>Topik</Text>
               <Text style={styles.nama}>
-                Kebugaran Jasmani dengan permainan bola besar
+                {detail.nama}
+              </Text>
+              <Text style={styles.nip}>Tanggal</Text>
+              <Text style={styles.nama}>
+                {detail.tanggal}
+              </Text>
+              <Text style={styles.nip}>Waktu</Text>
+              <Text style={styles.nama}>
+                {detail.waktu}
               </Text>
             </View>
             <Text style={styles.kehadiran}>Kehadiran Siswa</Text>
             {/* untuk siswa hadir */}
-            <View style={styles.hadirBox}>
-              <Text style={styles.siswa}>Fikri Halim Ch</Text>
-              <StatusKomponen status="hadir"/>
-              {/* <Feather name="check-circle" style={styles.check} /> */}
-            </View>
-            {/* untuk siswa ga hadir */}
-            <View style={styles.hadirBox}>
-              <Text style={styles.siswa}>Fikri Halim Ch</Text>
-              <StatusKomponen status="tidak"/>
-              {/* <Feather name="x-circle" style={styles.silang} /> */}
-            </View>
+            {
+              kelas.map(data => {
+                return <View style={styles.hadirBox}>
+                  <Text style={styles.siswa}>{data.user.nama}</Text>
+                  <StatusKomponen status={data.status == '1' ? 'hadir' : 'tidak'} />
+                  {/* <Feather name="check-circle" style={styles.check} /> */}
+                </View>
+              })
+            }
           </View>
         </ScrollView>
       </View>
