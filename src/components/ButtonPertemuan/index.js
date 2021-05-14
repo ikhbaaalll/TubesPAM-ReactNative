@@ -12,6 +12,7 @@ import Modal from 'react-native-modal';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { Qrcode, QrcodeActive, Mola } from '../../assets';
 import { ButtonCustom, QrCode } from '../../components';
+import { useNavigation } from '@react-navigation/native';
 
 const ButtonPertemuan = ({ topik, id }) => {
   var [isPress, setIsPress] = React.useState(false);
