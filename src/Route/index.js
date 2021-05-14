@@ -5,18 +5,24 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan, KelasDetail, HomeGuru } from '../pages';
 import { BottomNavigator } from '../components'
 import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainApp = () => {
   const [user, setUser] = useState('2');
+  const navigation = useNavigation();
 
   useEffect(() => {
+    if (user == null) {
+      navigation.replace('Login')
+    }
     const _getUser = async () => {
       const role = await AsyncStorage.getItem('role')
-      if (!user) {
+      if (!role) {
         navigation.replace('Login')
+        setUser(null)
       }
       setUser(role)
     }
@@ -25,7 +31,7 @@ const MainApp = () => {
   }, [])
 
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Profil">
+    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Kelas">
       <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
       {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={HomeGuru} style={styles.menu} />}
       <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
@@ -35,7 +41,7 @@ const MainApp = () => {
 
 const Route = () => {
   return (
-    <Stack.Navigator initialRouteName="MainApp">
+    <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
