@@ -27,6 +27,7 @@ const KelasPertemuan = ({ route, navigation }) => {
     })
       .then(response => response.json())
       .then(responseJson => setListKelas(responseJson))
+    console.log(listKelas)
   }, [])
 
   return (
@@ -41,7 +42,7 @@ const KelasPertemuan = ({ route, navigation }) => {
           <View style={styles.footerBox}>
             {
               listKelas.map(data => {
-                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} />
+                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} />
               })
             }
           </View>
