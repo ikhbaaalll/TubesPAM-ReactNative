@@ -1,10 +1,11 @@
 import React from 'react';
-import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { IconBlackboard } from '../../assets';
-import { useNavigation } from '@react-navigation/native';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {IconBlackboard} from '../../assets';
+import {useNavigation} from '@react-navigation/native';
+import Feather from 'react-native-vector-icons/Feather';
 
-const ButtonIcon = ({ title, value }) => {
+const ButtonIcon = ({title, value, source, type}) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
 
@@ -17,13 +18,20 @@ const ButtonIcon = ({ title, value }) => {
   };
 
   const viewKelas = () => {
-    navigation.navigate('KelasPertemuan', { kelas: value })
-  }
+    navigation.navigate('KelasPertemuan', {kelas: value});
+  };
 
   return (
     <TouchableHighlight {...touchProps} onPress={viewKelas}>
-      <View style={isPress ? styles.containerBaru : styles.container}>
-        <IconBlackboard />
+      <View style={styles.container(isPress)}>
+        {type == 'menu' ? (
+          <Feather
+            name={source}
+            style={styles.icon}
+          />
+        ) : (
+          <IconBlackboard />
+        )}
         <Text style={styles.text(isPress)}>{title}</Text>
       </View>
     </TouchableHighlight>
@@ -33,41 +41,30 @@ const ButtonIcon = ({ title, value }) => {
 export default ButtonIcon;
 
 const styles = StyleSheet.create({
-  container: {
+  container: isPress => ({
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: isPress ? 5 : 1,
     backgroundColor: '#fff',
     borderColor: ColorPrimary,
     borderRadius: 20,
     paddingVertical: 20,
     paddingHorizontal: 30,
     marginBottom: 40,
-    marginHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-
-    elevation: 10,
-  },
-  containerBaru: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 5,
-    borderColor: ColorPrimary,
-    borderRadius: 20,
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    marginBottom: 35,
-    marginHorizontal: 15,
-  },
+    marginHorizontal: 10,
+    width: 140,
+    height: 140,
+    shadowColor: isPress ? null : '#000',
+    elevation: isPress ? 0 : 10,
+  }),
   text: isPress => ({
     fontWeight: 'bold',
     color: ColorPrimary,
     fontSize: isPress ? 17 : 20,
   }),
+  icon:{
+    color: ColorPrimary,
+    fontSize: 50,
+    // backgroundColor: ColorPrimary,
+  }
 });
