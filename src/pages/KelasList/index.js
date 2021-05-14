@@ -14,14 +14,14 @@ const KelasList = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <ButtonIcon title="Matematika" value="Matematika" />
-            <ButtonIcon title="B. Inggris" value="Bahasa Inggris" />
-            <ButtonIcon title="B. Indonesia" value="Bahasa Indonesia" />
+            <ButtonIcon title="MTK" value="Matematika" />
+            <ButtonIcon title="B.Ing" value="Bahasa Inggris" />
+            <ButtonIcon title="B.Ind" value="Bahasa Indonesia" />
             <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" />
             <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" />
             <ButtonIcon title="PKN" value="Seni Budaya" />
-            <ButtonIcon title="Seni Budaya" value="Pendidikan Pancasila dan Kewarganegaraan" />
-            <ButtonIcon title="Pend. Jasmani" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" />
+            <ButtonIcon title="Seni" value="Pendidikan Pancasila dan Kewarganegaraan" />
+            <ButtonIcon title="PJOK" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" />
           </View>
         </ScrollView>
       </View>
