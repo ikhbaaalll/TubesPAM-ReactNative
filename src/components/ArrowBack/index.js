@@ -6,22 +6,23 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
-import {StatusHadir} from '../../components';
+import { useNavigation } from '@react-navigation/native';
 
-const ArrowBack = ({user, status, type}) => {
+const ArrowBack = ({ user, status, type }) => {
   var [isPress, setIsPress] = React.useState(false);
+  const navigation = useNavigation();
 
   var touchProps = {
     activeOpacity: 1,
     underlayColor: ColorPrimary,
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
-    onPress: () => console.log('Button Icon Pressed'),
+    onPress: () => navigation.goBack(),
   };
 
-  const IconHeader = ({title, lambang, styleIcon, styleText}) => {
+  const IconHeader = ({ title, lambang, styleIcon, styleText }) => {
     return (
       <View style={styles.keteranganBox}>
         <Text style={status == 'selesai' ? styles.text : styles.textRed}>
@@ -56,7 +57,7 @@ const ArrowBack = ({user, status, type}) => {
           style={isPress ? styles.arrowBaru : styles.arrow}
         />
       </TouchableHighlight>
-      {type == 'detail' ?  user == 'guru' ? <Guru /> : <Siswa /> : null}
+      {type == 'detail' ? user == 'guru' ? <Guru /> : <Siswa /> : null}
     </View>
   );
 };
