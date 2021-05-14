@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,13 @@ import {
   ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {Qrcode, QrcodeActive, Mola} from '../../assets';
-import {ButtonCustom, QrCode} from '../../components';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { Qrcode, QrcodeActive, Mola } from '../../assets';
+import { ButtonCustom, QrCode } from '../../components';
 
-const ButtonPertemuan = ({topik}) => {
+const ButtonPertemuan = ({ topik, id }) => {
   var [isPress, setIsPress] = React.useState(false);
+  const navigation = useNavigation();
   var [isQrPress, setIsQrPress] = React.useState(false);
   var [isModalPress, setIsModalPress] = React.useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -30,12 +31,15 @@ const ButtonPertemuan = ({topik}) => {
     onPress: () => console.log('Button Icon Pressed'),
   };
 
+  const KelasDetail = () => {
+    navigation.navigate('KelasDetail', { kelasId: id })
+  }
+
   var qrProps = {
     activeOpacity: 1,
     underlayColor: 'white',
     onHideUnderlay: () => setIsQrPress(false),
     onShowUnderlay: () => setIsQrPress(true),
-    onPress: () => console.log('Button qr Pressed'),
   };
 
   var modalProps = {
@@ -49,10 +53,10 @@ const ButtonPertemuan = ({topik}) => {
 
 
   return (
-    <TouchableHighlight {...touchProps}>
+    <TouchableHighlight {...touchProps} onPress={KelasDetail}>
       <View style={isPress ? styles.containerBaru : styles.container}>
         <View style={styles.containerDalam}>
-          <Text style={styles.title}>Pertemuan 1</Text>
+          <Text style={styles.title}>{topik}</Text>
           <Text style={styles.topik}>{topik}</Text>
         </View>
         <TouchableHighlight {...qrProps} onPress={toggleModal}>
@@ -63,8 +67,8 @@ const ButtonPertemuan = ({topik}) => {
 
         <Modal isVisible={isModalVisible}>
           <ScrollView style={styles.modal}>
-          {/* Ganti gambar di bagian source */}
-            <QrCode source={Mola}/>
+            {/* Ganti gambar di bagian source */}
+            <QrCode source={Mola} />
             <Text style={styles.nip}>Pelajaran</Text>
             <Text style={styles.nama}>
               Pendidikan Jasmani, Olahraga, dan Kesehatan
@@ -73,7 +77,7 @@ const ButtonPertemuan = ({topik}) => {
             <Text style={styles.nama}>
               Kebugaran Jasmani dengan permainan bola besar
             </Text>
-            <TouchableHighlight {...modalProps} onPress={toggleModal} style={{marginBottom:50}}>
+            <TouchableHighlight {...modalProps} onPress={toggleModal} style={{ marginBottom: 50 }}>
               <ButtonCustom title="Tutup" isPress={isModalPress} />
             </TouchableHighlight>
           </ScrollView>
