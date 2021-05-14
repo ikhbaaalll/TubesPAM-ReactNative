@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import { ButtonIcon, ArrowBack, StatusKomponen } from '../../components';
+import { ArrowBack, ItemSiswa } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 
 const KelasDetail = ({ route, navigation }) => {
@@ -85,11 +85,7 @@ const KelasDetail = ({ route, navigation }) => {
             {/* untuk siswa hadir */}
             {
               kelas.map(data => {
-                return <View style={styles.hadirBox}>
-                  <Text style={styles.siswa}>{data.user.nama}</Text>
-                  <StatusKomponen status={data.status == '1' ? 'hadir' : 'tidak'} />
-                  {/* <Feather name="check-circle" style={styles.check} /> */}
-                </View>
+                return <ItemSiswa key={data.id} nama={data.user.nama} status={data.status} />
               })
             }
           </View>
