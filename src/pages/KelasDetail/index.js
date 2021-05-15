@@ -17,6 +17,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [status, setStatus] = useState('0')
   const [user, setUser] = useState(JSON.stringify(userId).replace(/\"/g, ""))
   const [presensi, setPresensi] = useState('0')
+  const [statusKelas, setStatusKelas] = useState('0')
   const [detail, setDetail] = useState({
     nama: '',
     pelajaran: '',
@@ -30,7 +31,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [kelas, setKelas] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.43.152:1010/api/kelas/show', {
+    fetch('http://192.168.43.39:1010/api/kelas/show', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -42,7 +43,7 @@ const KelasDetail = ({ route, navigation }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status.status) })
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas) })
   }, [])
 
   const icon = hadir => {
@@ -56,7 +57,7 @@ const KelasDetail = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? status == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
         <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>
