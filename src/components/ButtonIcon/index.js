@@ -42,7 +42,7 @@ export default ButtonIcon;
 
 const styles = StyleSheet.create({
   container: isPress => ({
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderWidth: isPress ? 5 : 1,
     backgroundColor: '#fff',
