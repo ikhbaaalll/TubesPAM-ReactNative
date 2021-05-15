@@ -31,7 +31,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [kelas, setKelas] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.43.39:1010/api/kelas/show', {
+    fetch('http://192.168.43.152:1010/api/kelas/show', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -88,7 +88,7 @@ const KelasDetail = ({ route, navigation }) => {
             {/* untuk siswa hadir */}
             {
               kelas.map(data => {
-                return <ItemSiswa key={data.id} nama={data.user.nama} status={data.status} />
+                return <ItemSiswa key={data.id} nama={data.user.nama} status={data.status} id={data.id} />
               })
             }
           </View>

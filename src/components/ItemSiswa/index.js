@@ -4,12 +4,12 @@ import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
 import { StatusKomponen } from '../../components';
 
-const ItemSiswa = ({ nama, status }) => {
+const ItemSiswa = ({ nama, status, id }) => {
 
     return (
         <View style={styles.hadirBox}>
             <Text style={styles.siswa}>{nama}</Text>
-            <StatusKomponen status={status == '1' ? 'hadir' : 'tidak'} />
+            <StatusKomponen status={status == '1' ? 'hadir' : 'tidak'} id={id} />
         </View>
     );
 };
