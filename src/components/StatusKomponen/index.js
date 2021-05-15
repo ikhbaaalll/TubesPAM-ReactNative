@@ -17,7 +17,7 @@ const StatusKomponen = ({status}) => {
   return (
     <TouchableHighlight {...touchProps}>
       <Feather
-        name={status == "hadir" ? "check-circle" : "x-circle"}
+        name={status == "hadir" ? "check-circle" : status == "edit" ? "edit" : "x-circle"}
         style={styles.check(isPress,status)}
       />
     </TouchableHighlight>
