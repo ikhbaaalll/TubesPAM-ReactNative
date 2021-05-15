@@ -3,11 +3,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 
-const ButtonCustom = ({title, isPress}) => {
+const ButtonCustom = ({title, isPress, type}) => {
   return (
     <View style={styles.box}>
       <View style={styles.container}>
-        <LinearGradient colors={['#a1ffea', '#86E3CE']} style={isPress ?  styles.gradienBaru : styles.gradien}>
+        <LinearGradient colors={type == "hapus" ? ['#ffd9e1', '#f58ca1'] : ['#a1ffea', '#86E3CE']} style={isPress ?  styles.gradienBaru : styles.gradien}>
           <Text style={isPress ? styles.text_buttonBaru : styles.text_button}>{title}</Text>
         </LinearGradient>
       </View>
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#31ec92',
     marginTop: 30,
     paddingBottom: 30,
+    marginRight: 10,
   },
   gradien: {
     width: '40%',
