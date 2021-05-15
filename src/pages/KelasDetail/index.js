@@ -12,9 +12,12 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const KelasDetail = ({ route, navigation }) => {
   const [hadir, setHadir] = useState(true);
-  const { kelasId } = route.params
-  const [role, setRole] = useState('2')
+  const { kelasId, roleUser, userId } = route.params
+  const [role, setRole] = useState(JSON.stringify(roleUser).replace(/\"/g, ""))
   const [status, setStatus] = useState('0')
+  const [user, setUser] = useState(JSON.stringify(userId).replace(/\"/g, ""))
+  const [presensi, setPresensi] = useState('0')
+  const [statusKelas, setStatusKelas] = useState('0')
   const [detail, setDetail] = useState({
     nama: '',
     pelajaran: '',
@@ -35,12 +38,12 @@ const KelasDetail = ({ route, navigation }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: JSON.stringify(kelasId).replace(/\"/g, "")
+        id: JSON.stringify(kelasId).replace(/\"/g, ""),
+        user: user
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setRole(responseJson.kelas.user.role), setStatus(responseJson.kelas.status) })
-    console.log(status)
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas) })
   }, [])
 
   const icon = hadir => {
@@ -54,7 +57,7 @@ const KelasDetail = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={status == '0' ? 'belum' : 'selesai'} type="detail" />
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
         <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>
@@ -85,7 +88,7 @@ const KelasDetail = ({ route, navigation }) => {
             {/* untuk siswa hadir */}
             {
               kelas.map(data => {
-                return <ItemSiswa key={data.id} nama={data.user.nama} status={data.status} />
+                return <ItemSiswa key={data.id} nama={data.user.nama} status={data.status} id={data.id} />
               })
             }
           </View>

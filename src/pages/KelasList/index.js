@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonIcon, ArrowBack } from '../../components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const KelasList = () => {
+  const [kelas, setKelas] = useState('1')
+
+  useEffect(() => {
+    const _getKelas = async () => {
+      const user = await AsyncStorage.getItem('kelas')
+      if (!user) {
+        navigation.replace('Login')
+        setKelas(null)
+      }
+      setKelas(user)
+    }
+    _getKelas()
+
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -14,14 +30,14 @@ const KelasList = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <ButtonIcon title="MTK" value="Matematika" />
-            <ButtonIcon title="B.Ing" value="Bahasa Inggris" />
-            <ButtonIcon title="B.Ind" value="Bahasa Indonesia" />
-            <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" />
-            <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" />
-            <ButtonIcon title="PKN" value="Pendidikan Pancasila dan Kewarganegaraan" />
+            <ButtonIcon title="MTK" value="Matematika" userKelas={kelas} />
+            <ButtonIcon title="B.Ing" value="Bahasa Inggris" userKelas={kelas} />
+            <ButtonIcon title="B.Ind" value="Bahasa Indonesia" userKelas={kelas} />
+            <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" userKelas={kelas} />
+            <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" userKelas={kelas} />
+            <ButtonIcon title="PKN" value="Pendidikan Pancasila dan Kewarganegaraan" userKelas={kelas} />
             <ButtonIcon title="Seni" value="Seni Budaya" />
-            <ButtonIcon title="PJOK" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" />
+            <ButtonIcon title="PJOK" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" userKelas={kelas} />
           </View>
         </ScrollView>
       </View>

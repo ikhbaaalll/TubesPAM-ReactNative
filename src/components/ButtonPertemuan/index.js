@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,13 +13,23 @@ import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { Qrcode, QrcodeActive, Mola } from '../../assets';
 import { ButtonCustom, QrCode } from '../../components';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const ButtonPertemuan = ({ topik, id, status, pelajaran }) => {
+const ButtonPertemuan = ({ topik, id, status, pelajaran, role }) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
   var [isQrPress, setIsQrPress] = React.useState(false);
   var [isModalPress, setIsModalPress] = React.useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    const _getUser = async () => {
+      const id = await AsyncStorage.getItem('id')
+      setUser(id)
+    }
+    _getUser()
+  }, [])
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -33,7 +43,7 @@ const ButtonPertemuan = ({ topik, id, status, pelajaran }) => {
   };
 
   const KelasDetail = () => {
-    navigation.navigate('KelasDetail', { kelasId: id })
+    navigation.navigate('KelasDetail', { kelasId: id, roleUser: role, userId: user })
   }
 
   var qrProps = {
@@ -60,11 +70,15 @@ const ButtonPertemuan = ({ topik, id, status, pelajaran }) => {
           <Text style={styles.title}>{topik}</Text>
           <Text style={styles.topik}>{topik}</Text>
         </View>
-        <TouchableHighlight {...qrProps} onPress={toggleModal}>
-          <View style={isQrPress ? styles.boxIconBaru : styles.boxIcon}>
-            {isQrPress ? <QrcodeActive /> : <Qrcode />}
-          </View>
-        </TouchableHighlight>
+        {
+          role == '1' ?
+            <TouchableHighlight {...qrProps} onPress={toggleModal}>
+              <View style={isQrPress ? styles.boxIconBaru : styles.boxIcon}>
+                {isQrPress ? <QrcodeActive /> : <Qrcode />}
+              </View>
+            </TouchableHighlight> :
+            null
+        }
 
         <Modal isVisible={isModalVisible}>
           <ScrollView style={styles.modal}>

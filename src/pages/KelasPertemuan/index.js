@@ -9,25 +9,40 @@ import {
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonPertemuan, ArrowBack } from '../../components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const KelasPertemuan = ({ route, navigation }) => {
   const [listKelas, setListKelas] = useState([])
-  const { kelas } = route.params
+  const { kelas, userKelas } = route.params
+  const [user, setUser] = useState('2')
 
   useEffect(() => {
-    fetch('http://192.168.43.152:1010/api/kelas/list', {
+    const _getUser = async () => {
+      const role = await AsyncStorage.getItem('role')
+      if (!role) {
+        navigation.replace('Login')
+        setUser(null)
+      }
+      setUser(role)
+    }
+    _getUser()
+
+    fetch('http://192.168.43.39:1010/api/kelas/list', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        pelajaran: JSON.stringify(kelas).replace(/\"/g, "")
+        pelajaran: JSON.stringify(kelas).replace(/\"/g, ""),
+        kelas: JSON.stringify(userKelas).replace(/\"/g, "")
       }),
     })
       .then(response => response.json())
-      .then(responseJson => setListKelas(responseJson))
-    console.log(listKelas)
+      .then(responseJson => {
+        setListKelas(responseJson)
+      })
+
   }, [])
 
   return (
@@ -41,9 +56,10 @@ const KelasPertemuan = ({ route, navigation }) => {
         <ScrollView>
           <View style={styles.footerBox}>
             {
-              listKelas.map(data => {
-                return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} />
-              })
+              listKelas ?
+                listKelas.map(data => {
+                  return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} />
+                }) : null
             }
           </View>
         </ScrollView>
