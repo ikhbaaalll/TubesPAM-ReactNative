@@ -9,10 +9,11 @@ import KelasHapus from './KelasHapus'
 import KelasList from './KelasList'
 import KelasPertemuan from './KelasPertemuan'
 import KelasDetail from './KelasDetail'
+import KelasHapus from './KelasHapus'
 import HomeGuru from './HomeGuru'
 import UserTambah from './UserTambah'
 import UserKelas from './UserKelas'
 import UserList from './UserList'
 
 export { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan, KelasDetail, HomeGuru, KelasHapus, UserTambah, UserKelas, UserList
-UserList }
+UserList, KelasHapus }
