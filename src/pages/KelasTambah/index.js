@@ -6,7 +6,8 @@ import {
   TextInput,
   ScrollView,
   TouchableHighlight,
-  ToastAndroid
+  ToastAndroid,
+  Alert
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonCustom, ArrowBack, DateTimeChooser } from '../../components';
@@ -21,6 +22,7 @@ const KelasTambah = ({ navigation }) => {
   const [tanggal, setTanggal] = useState(null);
   const [waktu, setWaktu] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [kelas, setKelas] = useState(null)
 
   const touchProps = {
     activeOpacity: 1,
@@ -33,7 +35,9 @@ const KelasTambah = ({ navigation }) => {
   useEffect(() => {
     const _session = async () => {
       const getUserId = await AsyncStorage.getItem('id')
+      const getUserKelas = await AsyncStorage.getItem('kelas')
       setUserId(getUserId)
+      setKelas(getUserKelas)
     }
     _session()
   }, [])
@@ -51,7 +55,8 @@ const KelasTambah = ({ navigation }) => {
           nama: judul,
           pelajaran: pelajaran,
           tanggal: tanggal,
-          waktu: waktu
+          waktu: waktu,
+          kelas: kelas
         }),
       })
         .then(response => response.json())
@@ -61,6 +66,24 @@ const KelasTambah = ({ navigation }) => {
             navigation.navigate("Profil")
           }
         })
+
+      setPelajaran('pilih')
+      setJudul('')
+      setWaktu(null)
+    } else {
+      Alert.alert(
+        "Error",
+        "Masukkan seluruh field yang tersedia",
+        [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ],
+        {
+          cancelable: true
+        }
+      );
     }
   }
 
