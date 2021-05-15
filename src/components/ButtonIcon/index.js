@@ -1,11 +1,11 @@
 import React from 'react';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
-import {IconBlackboard} from '../../assets';
-import {useNavigation} from '@react-navigation/native';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { IconBlackboard } from '../../assets';
+import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 
-const ButtonIcon = ({title, value, source, type}) => {
+const ButtonIcon = ({ title, value, source, type, userKelas }) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
 
@@ -18,7 +18,7 @@ const ButtonIcon = ({title, value, source, type}) => {
   };
 
   const viewKelas = () => {
-    navigation.navigate('KelasPertemuan', {kelas: value});
+    navigation.navigate('KelasPertemuan', { kelas: value, userKelas: userKelas });
   };
 
   return (
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     color: ColorPrimary,
     fontSize: isPress ? 17 : 20,
   }),
-  icon:{
+  icon: {
     color: ColorPrimary,
     fontSize: 50,
     // backgroundColor: ColorPrimary,
