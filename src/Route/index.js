@@ -1,19 +1,54 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { Kelas, Login, Profil, QrScan, SplashScreen } from '../pages';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  Login,
+  Profil,
+  QrScan,
+  SplashScreen,
+  Auth,
+  KelasTambah,
+  KelasList,
+  KelasPertemuan,
+  KelasDetail,
+  UserKelas,
+  UserList,
+  UserTambah,
+  UserEdit
+} from '../pages';
 import { BottomNavigator } from '../components'
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainApp = () => {
+  const [user, setUser] = useState('2');
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (user == null) {
+      navigation.replace('Login')
+    }
+    const _getUser = async () => {
+      const role = await AsyncStorage.getItem('role')
+      if (!role) {
+        navigation.replace('Login')
+        setUser(null)
+      }
+      setUser(role)
+    }
+    _getUser()
+
+  }, [])
+
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="QrScan">
-      <Tab.Screen name="Profil" component={Profil} style={styles.menu}/>
-      <Tab.Screen name="QrScan" component={QrScan} style={styles.menu}/>
-      <Tab.Screen name="Kelas" component={Kelas} style={styles.menu}/>
+    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Kelas">
+      <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
+      {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={UserKelas} style={styles.menu} />}
+      <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
     </Tab.Navigator>
   );
 };
@@ -24,17 +59,52 @@ const Route = () => {
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Auth"
+        component={Auth}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{headerShown: false}}
+        options={{ headerShown: false, headerLeft: null, gesturesEnabled: false }}
       />
       <Stack.Screen
         name="MainApp"
         component={MainApp}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KelasPertemuan"
+        component={KelasPertemuan}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KelasDetail"
+        component={KelasDetail}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KelasTambah"
+        component={KelasTambah}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserList"
+        component={UserList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserTambah"
+        component={UserTambah}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserEdit"
+        component={UserEdit}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

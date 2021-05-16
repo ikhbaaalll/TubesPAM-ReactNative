@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,7 @@ import {
   Button,
   TouchableOpacity,
   Dimensions,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,54 +15,62 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InputText from '../../components/TextInput';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import { emailValidator } from '../../helpers/emailValidator'
-import { passwordValidator } from '../../helpers/passwordValidator'
-
-
+import { emailValidator } from '../../helpers/emailValidator';
+import { passwordValidator } from '../../helpers/passwordValidator';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function index({ navigation }) {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
   const [user, setUser] = useState({
     nama: '',
     kelas: '',
     role: '',
     email: '',
-  })
+  });
 
   const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
     }
-    fetch('http://192.168.43.39:1010/api/login', {
+    fetch('http://192.168.43.152:1010/api/login', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: (email.value),
-        password: (password.value)
-      })
-    }).then((response) => response.json())
-      .then((responseJson) => {
+        email: email.value,
+        password: password.value,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
         if (responseJson.user != null) {
           setUser({
             nama: responseJson.user.nama,
             kelas: responseJson.user.kelas,
             role: responseJson.user.role,
             email: responseJson.user.email,
-          })
-          navigation.navigate('MainApp')
+          });
+
+          AsyncStorage.setItem('id', responseJson.user.id.toString());
+          AsyncStorage.setItem('email', responseJson.user.email);
+          AsyncStorage.setItem('nama', responseJson.user.nama);
+          AsyncStorage.setItem('kelas', responseJson.user.kelas.toString());
+          AsyncStorage.setItem('role', responseJson.user.role.toString());
+          setEmail({ ...email, value: '' })
+          setPassword({ ...password, value: '' })
+          navigation.navigate('MainApp');
         } else {
-          alert(responseJson.user)
-          setEmail({ ...email, error: responseJson.error })
+          alert("Akun tidak terdaftar");
+          setEmail({ ...email, error: responseJson.error });
         }
-      })
-  }
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -75,12 +83,12 @@ export default function index({ navigation }) {
           <View style={{ marginBottom: 20 }}>
             <Text style={styles.title}>E-mail</Text>
             <View style={styles.containerInput}>
-              <FontAwesome name="user" color={ColorPrimary} size={25} />
+              <FontAwesome name="user-o" color={ColorPrimary} size={25} />
               <TextInput
                 label="Email"
                 returnKeyType="next"
                 value={email.value}
-                onChangeText={(text) => setEmail({ value: text, error: '' })}
+                onChangeText={text => setEmail({ value: text, error: '' })}
                 error={!!email.error}
                 errorText={email.error}
                 autoCapitalize="none"
@@ -101,7 +109,7 @@ export default function index({ navigation }) {
                 label="Password"
                 returnKeyType="done"
                 value={password.value}
-                onChangeText={(text) => setPassword({ value: text, error: '' })}
+                onChangeText={text => setPassword({ value: text, error: '' })}
                 error={!!password.error}
                 errorText={password.error}
                 secureTextEntry
@@ -111,7 +119,9 @@ export default function index({ navigation }) {
             </View>
           </View>
           <TouchableOpacity style={styles.button} onPress={onLoginPressed}>
-            <LinearGradient colors={['#a1ffea', '#86E3CE']} style={styles.signIn}>
+            <LinearGradient
+              colors={['#a1ffea', '#86E3CE']}
+              style={styles.gradien}>
               <Text style={styles.text_button}>Masuk</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -119,7 +129,7 @@ export default function index({ navigation }) {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -156,9 +166,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   text_button: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 18,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   action: {
     flexDirection: 'row',
@@ -182,7 +192,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 20,
   },
-  signIn: {
+  gradien: {
     width: '60%',
     height: 50,
     justifyContent: 'center',
