@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   ImageBackground,
+  Alert
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ArrowBack, ItemSiswa } from '../../components';
@@ -18,6 +19,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [user, setUser] = useState(JSON.stringify(userId).replace(/\"/g, ""))
   const [presensi, setPresensi] = useState('0')
   const [statusKelas, setStatusKelas] = useState('0')
+  const [totalPresensi, setTotalPresensi] = useState('0')
   const [detail, setDetail] = useState({
     nama: '',
     pelajaran: '',
@@ -43,16 +45,47 @@ const KelasDetail = ({ route, navigation }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas) })
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas), setTotalPresensi(responseJson.total) })
   }, [])
 
-  const icon = hadir => {
-    return hadir ? (
-      <Feather name="check-circle" style={styles.check} />
-    ) : (
-      <Feather name="x-circle" style={styles.silang} />
+  const deleteKelas = () => {
+    Alert.alert(
+      "Peringatan",
+      "Yakin ingin menghapus kelas?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          style: "cancel",
+          onPress: () => {
+            fetch('http://192.168.43.152:1010/api/kelas/destroy', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id: JSON.stringify(kelasId).replace(/\"/g, ""),
+              }),
+            })
+              .then(response => response.json())
+              .then(responseJson => {
+                if (responseJson == 'Sukses') {
+                  ToastAndroid.show("Sukses menghapus kelas", ToastAndroid.SHORT);
+                  navigation.navigate('Kelas')
+                }
+              })
+          },
+        },
+      ],
+      {
+        cancelable: true
+      }
     );
-  };
+  }
 
   return (
     <View style={styles.container}>
