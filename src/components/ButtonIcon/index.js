@@ -21,8 +21,16 @@ const ButtonIcon = ({ title, value, source, type, userKelas }) => {
     navigation.navigate('KelasPertemuan', { kelas: value, userKelas: userKelas });
   };
 
+  const viewSiswa = () => {
+    navigation.navigate('UserList', { kelas: value, userKelas: userKelas });
+  }
+
+  const addSiswa = () => {
+    navigation.navigate('UserTambah', { userKelas: userKelas });
+  }
+
   return (
-    <TouchableHighlight {...touchProps} onPress={viewKelas}>
+    <TouchableHighlight {...touchProps} onPress={type == 'kelas' ? viewSiswa : type == 'tambahsiswa' ? addSiswa : viewKelas}>
       <View style={styles.container(isPress)}>
         {type == 'menu' ? (
           <Feather
