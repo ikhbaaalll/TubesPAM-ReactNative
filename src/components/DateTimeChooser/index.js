@@ -7,8 +7,6 @@ import moment from 'moment'
 
 const DateTimeChooser = ({ mode, title, getTanggal, getWaktu }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  // const [tanggal, setTanggal] = useState('Tanggal Pertemuan'); //tanggal
-  // const [jam, setJam] = useState('Jam Pertemuan'); //tanggal
   const [tanggal, setTanggal] = useState(null);
   const [waktu, setWaktu] = useState(null);
 
@@ -21,7 +19,6 @@ const DateTimeChooser = ({ mode, title, getTanggal, getWaktu }) => {
   };
 
   const handleConfirm = date => {
-    // const jadwal = date.toUTCstring();
     const tahun = date.getFullYear();
     const bulan = date.getMonth();
     const bulan2 = bulan > 10 ? bulan : '0' + bulan;
@@ -36,17 +33,15 @@ const DateTimeChooser = ({ mode, title, getTanggal, getWaktu }) => {
     setWaktu(jam2 + ':' + menit2)
     getTanggal(tanggal)
     getWaktu(waktu)
-    // console.warn(getTanggal + '-' + getWaktu)
     hideDatePicker();
   };
 
   return (
     <View>
       <TouchableOpacity onPress={showDatePicker}>
-        <Text style={styles.title}>Pilih Tanggal</Text>
+        <Text style={styles.title}>Pilih Tanggal dan Waktu</Text>
         <View style={styles.showButton}>
           <Text style={styles.textButton}>{title}</Text>
-          {/* <Text style={styles.textButton}>{tanggal.isi[]}</Text> */}
           <Feather name="calendar" color={ColorPrimary} size={25} />
         </View>
       </TouchableOpacity>
