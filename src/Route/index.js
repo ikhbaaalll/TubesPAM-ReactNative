@@ -2,7 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Kelas, Login, Profil, QrScan, SplashScreen, Auth, KelasTambah, KelasList, KelasPertemuan, KelasDetail, HomeGuru } from '../pages';
+import {
+  Login,
+  Profil,
+  QrScan,
+  SplashScreen,
+  Auth,
+  KelasTambah,
+  KelasList,
+  KelasPertemuan,
+  KelasDetail,
+  UserKelas,
+  UserList,
+  UserTambah,
+  UserEdit
+} from '../pages';
 import { BottomNavigator } from '../components'
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -33,7 +47,7 @@ const MainApp = () => {
   return (
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Kelas">
       <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
-      {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={HomeGuru} style={styles.menu} />}
+      {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={UserKelas} style={styles.menu} />}
       <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
     </Tab.Navigator>
   );
@@ -75,6 +89,21 @@ const Route = () => {
       <Stack.Screen
         name="KelasTambah"
         component={KelasTambah}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserList"
+        component={UserList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserTambah"
+        component={UserTambah}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserEdit"
+        component={UserEdit}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
