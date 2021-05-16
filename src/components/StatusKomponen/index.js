@@ -70,8 +70,8 @@ const StatusKomponen = ({ status, id }) => {
   return (
     <TouchableHighlight {...touchProps} onPress={isPresent}>
       <Feather
-        name={status == "hadir" ? "check-circle" : status == "edit" ? "edit" : "x-circle"}
-        style={styles.check(isPress,status)}
+        name={hadir == "hadir" ? "check-circle" : status == "edit" ? "edit" : "x-circle"}
+        style={styles.check(isPress, hadir)}
       />
     </TouchableHighlight>
   );
@@ -80,11 +80,11 @@ const StatusKomponen = ({ status, id }) => {
 export default StatusKomponen;
 
 const styles = StyleSheet.create({
-  check: (isPress, hadir) => ({
+  check: (isPress, status) => ({
     borderRadius: 50,
     padding: isPress ? 5 : 6,
     marginRight: 10,
-    color: hadir == "hadir" ? ColorPrimary : '#f58ca1',
+    color: status == "hadir" ? ColorPrimary : '#f58ca1',
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     elevation: isPress ? 0 : 10,
     borderWidth: isPress ? 1 : 0,
-    borderColor: hadir == "hadir" ? ColorPrimary : '#f58ca1',
+    borderColor: status == "hadir" ? ColorPrimary : '#f58ca1',
   }),
 });
