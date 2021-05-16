@@ -30,6 +30,7 @@ const KelasList = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
+            <ButtonIcon title="Tambah" type="tambahkelas" source="plus" />
             <ButtonIcon title="MTK" value="Matematika" userKelas={kelas} />
             <ButtonIcon title="B.Ing" value="Bahasa Inggris" userKelas={kelas} />
             <ButtonIcon title="B.Ind" value="Bahasa Indonesia" userKelas={kelas} />
