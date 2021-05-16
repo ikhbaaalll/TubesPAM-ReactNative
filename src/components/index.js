@@ -10,6 +10,8 @@ import DateTimeChooser from './DateTimeChooser';
 import StatusKomponen from './StatusKomponen';
 import QrCode from './QrCode';
 import ItemSiswa from './ItemSiswa'
+import Siswa from './Siswa'
+import SiswaAction from './SiswaAction'
 
 export {
   BottomNavigator,
@@ -23,5 +25,7 @@ export {
   DateTimeChooser,
   StatusKomponen,
   QrCode,
-  ItemSiswa
+  ItemSiswa,
+  Siswa,
+  SiswaAction
 };
