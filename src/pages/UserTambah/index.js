@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,14 +6,23 @@ import {
   ScrollView,
   TouchableHighlight,
   TextInput,
+  ToastAndroid,
+  Alert
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonCustom, ArrowBack} from '../../components';
-const QrScan = () => {
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonCustom, ArrowBack } from '../../components';
+
+const UserTambah = ({ route, navigation }) => {
   const [isPress, setIsPress] = React.useState(false);
+  const { userKelas } = route.params
+  const [getUserKelas, setUserKelas] = useState(JSON.stringify(userKelas).replace(/\"/g, ""))
+  const [nama, setNama] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordValidation, setPasswordValidation] = useState('')
 
   const touchProps = {
     activeOpacity: 1,
@@ -22,10 +31,103 @@ const QrScan = () => {
     onShowUnderlay: () => setIsPress(true),
     onPress: () => console.log('Button Custom Pressed'),
   };
+
+  const addSiswa = () => {
+    const re = /\S+@\S+\.\S+/
+
+    if (nama && email && password && passwordValidation) {
+      if (re.test(email)) {
+        if (password == passwordValidation) {
+          fetch('http://192.168.43.152:1010/api/user/store', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nama: nama,
+              kelas: getUserKelas,
+              email: email,
+              password: password
+            }),
+          })
+            .then(response => response.json())
+            .then(responseJson => {
+              if (responseJson.error == null) {
+                ToastAndroid.show("Sukses menambah siswa", ToastAndroid.SHORT);
+                setNama('')
+                setEmail('')
+                setPassword('')
+                setPasswordValidation('')
+                navigation.navigate("Kelas")
+              } else {
+                Alert.alert(
+                  "Error",
+                  "Email telah digunakan",
+                  [
+                    {
+                      text: "OK",
+                      style: "cancel",
+                    },
+                  ],
+                  {
+                    cancelable: true
+                  }
+                );
+              }
+            })
+        } else {
+          Alert.alert(
+            "Error",
+            "Password tidak sesuai",
+            [
+              {
+                text: "OK",
+                style: "cancel",
+              },
+            ],
+            {
+              cancelable: true
+            }
+          );
+        }
+      } else {
+        Alert.alert(
+          "Error",
+          "Email tidak sesuai",
+          [
+            {
+              text: "OK",
+              style: "cancel",
+            },
+          ],
+          {
+            cancelable: true
+          }
+        );
+      }
+
+    } else {
+      Alert.alert(
+        "Error",
+        "Masukkan seluruh field",
+        [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ],
+        {
+          cancelable: true
+        }
+      );
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <ArrowBack/>
+        <ArrowBack />
         <Text style={styles.text_header}>Tambah Siswa</Text>
       </View>
       <View style={styles.footer}>
@@ -36,8 +138,8 @@ const QrScan = () => {
             <View style={styles.containerInput}>
               <View>
                 <TextInput
-                  // value={judul}
-                  // onChangeText={text => setJudul(text)}
+                  value={nama}
+                  onChangeText={text => setNama(text)}
                   label="nama"
                   autoCapitalize="none"
                   style={styles.textInput}
@@ -48,7 +150,7 @@ const QrScan = () => {
                 name="user"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
             <Text style={styles.title}>E-mail</Text>
@@ -57,10 +159,8 @@ const QrScan = () => {
                 <TextInput
                   label="Email"
                   returnKeyType="next"
-                  // value={email.value}
-                  // onChangeText={text => setEmail({value: text, error: ''})}
-                  // error={!!email.error}
-                  // errorText={email.error}
+                  value={email}
+                  onChangeText={text => setEmail(text)}
                   autoCapitalize="none"
                   autoCompleteType="email"
                   textContentType="emailAddress"
@@ -73,7 +173,7 @@ const QrScan = () => {
                 name="mail"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
             <Text style={styles.title}>Password</Text>
@@ -82,10 +182,8 @@ const QrScan = () => {
                 <TextInput
                   label="validasi"
                   returnKeyType="done"
-                  // value={password.value}
-                  // onChangeText={text => setPassword({value: text, error: ''})}
-                  // error={!!password.error}
-                  // errorText={password.error}
+                  value={password}
+                  onChangeText={text => setPassword(text)}
                   secureTextEntry
                   style={styles.textInput}
                   placeholder="Password"
@@ -98,10 +196,8 @@ const QrScan = () => {
               <TextInput
                 label="validasi"
                 returnKeyType="done"
-                // value={password.value}
-                // onChangeText={text => setPassword({value: text, error: ''})}
-                // error={!!password.error}
-                // errorText={password.error}
+                value={passwordValidation}
+                onChangeText={text => setPasswordValidation(text)}
                 secureTextEntry
                 style={styles.textInput}
                 placeholder="Validasi Password"
@@ -109,19 +205,7 @@ const QrScan = () => {
               <FontAwesome name="key" color={ColorPrimary} size={25} />
             </View>
 
-            <View style={styles.picker}>
-              <Text style={styles.title}>Kelas</Text>
-              <Picker>
-                <Picker.Item label="Kelas 1" />
-                <Picker.Item label="Kelas 2" />
-                <Picker.Item label="Kelas 3" />
-                <Picker.Item label="Kelas 4" />
-                <Picker.Item label="Kelas 5" />
-                <Picker.Item label="Kelas 6" />
-              </Picker>
-            </View>
-            <TouchableHighlight {...touchProps}>
-              {/* <TouchableHighlight {...touchProps} onPress={onPressAddKelas}> */}
+            <TouchableHighlight {...touchProps} onPress={addSiswa}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
           </View>
@@ -131,7 +215,7 @@ const QrScan = () => {
   );
 };
 
-export default QrScan;
+export default UserTambah;
 
 const styles = StyleSheet.create({
   container: {
