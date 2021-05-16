@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonIcon, ArrowBack } from '../../components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const UserKelas = () => {
+  const [kelas, setKelas] = useState('1')
+
+  useEffect(() => {
+    const _getKelas = async () => {
+      const user = await AsyncStorage.getItem('kelas')
+      if (!user) {
+        navigation.replace('Login')
+        setKelas(null)
+      }
+      setKelas(user)
+    }
+    _getKelas()
+
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -14,13 +30,13 @@ const UserKelas = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <ButtonIcon title="Tambah" value="Kelas 1" type="menu" source="plus"/>
-            <ButtonIcon title="kelas 1" value="Kelas 1" />
-            <ButtonIcon title="kelas 2" value="Kelas 2" />
-            <ButtonIcon title="kelas 3" value="Kelas 3" />
-            <ButtonIcon title="kelas 4" value="Kelas 4" />
-            <ButtonIcon title="kelas 5" value="Kelas 5" />
-            <ButtonIcon title="kelas 6" value="Kelas 6" />
+            <ButtonIcon title="Tambah" value="Kelas 1" type="tambahsiswa" source="plus" userKelas={kelas} />
+            <ButtonIcon title="Kelas 1" value="1" type="kelas" userKelas={kelas} />
+            <ButtonIcon title="Kelas 2" value="2" type="kelas" userKelas={kelas} />
+            <ButtonIcon title="Kelas 3" value="3" type="kelas" userKelas={kelas} />
+            <ButtonIcon title="Kelas 4" value="4" type="kelas" userKelas={kelas} />
+            <ButtonIcon title="Kelas 5" value="5" type="kelas" userKelas={kelas} />
+            <ButtonIcon title="Kelas 6" value="6" type="kelas" userKelas={kelas} />
           </View>
         </ScrollView>
       </View>
