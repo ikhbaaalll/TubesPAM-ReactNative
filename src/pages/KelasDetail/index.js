@@ -4,11 +4,12 @@ import {
   Text,
   View,
   ScrollView,
-  ImageBackground,
+  BackHandler,
+  Alert
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ArrowBack, ItemSiswa } from '../../components';
-import Feather from 'react-native-vector-icons/Feather';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasDetail = ({ route, navigation }) => {
   const [hadir, setHadir] = useState(true);
@@ -18,6 +19,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [user, setUser] = useState(JSON.stringify(userId).replace(/\"/g, ""))
   const [presensi, setPresensi] = useState('0')
   const [statusKelas, setStatusKelas] = useState('0')
+  const [totalPresensi, setTotalPresensi] = useState('0')
   const [detail, setDetail] = useState({
     nama: '',
     pelajaran: '',
@@ -30,8 +32,16 @@ const KelasDetail = ({ route, navigation }) => {
   });
   const [kelas, setKelas] = useState([]);
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
-    fetch('http://192.168.43.152:1010/api/kelas/show', {
+    checkConnection();
+
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/show', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -43,21 +53,52 @@ const KelasDetail = ({ route, navigation }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas) })
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas), setTotalPresensi(responseJson.total) })
   }, [])
 
-  const icon = hadir => {
-    return hadir ? (
-      <Feather name="check-circle" style={styles.check} />
-    ) : (
-      <Feather name="x-circle" style={styles.silang} />
+  const deleteKelas = () => {
+    Alert.alert(
+      "Peringatan",
+      "Yakin ingin menghapus kelas?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          style: "cancel",
+          onPress: () => {
+            fetch('https://tubespamqrcode.herokuapp.com/api/kelas/destroy', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id: JSON.stringify(kelasId).replace(/\"/g, ""),
+              }),
+            })
+              .then(response => response.json())
+              .then(responseJson => {
+                if (responseJson == 'Sukses') {
+                  ToastAndroid.show("Sukses menghapus kelas", ToastAndroid.SHORT);
+                  navigation.navigate('Kelas')
+                }
+              })
+          },
+        },
+      ],
+      {
+        cancelable: true
+      }
     );
-  };
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" id={JSON.stringify(kelasId).replace(/\"/g, "")} />
         <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>

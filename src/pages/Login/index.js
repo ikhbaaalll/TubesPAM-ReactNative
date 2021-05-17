@@ -4,20 +4,18 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   TouchableOpacity,
-  Dimensions,
+  BackHandler,
   StatusBar,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import InputText from '../../components/TextInput';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { emailValidator } from '../../helpers/emailValidator';
 import { passwordValidator } from '../../helpers/passwordValidator';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from "@react-native-community/netinfo";
 
 export default function index({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -29,6 +27,16 @@ export default function index({ navigation }) {
     email: '',
   });
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
+  useEffect(() => {
+    checkConnection();
+  }, [])
+
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -36,7 +44,7 @@ export default function index({ navigation }) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
     }
-    fetch('http://192.168.43.152:1010/api/login', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

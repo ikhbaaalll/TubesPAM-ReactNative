@@ -7,13 +7,15 @@ import {
   ScrollView,
   TouchableHighlight,
   ToastAndroid,
-  Alert
+  Alert,
+  BackHandler
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonCustom, ArrowBack, DateTimeChooser } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import { Picker } from '@react-native-picker/picker'
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasTambah = ({ navigation }) => {
   const [isPress, setIsPress] = React.useState(false);
@@ -32,7 +34,15 @@ const KelasTambah = ({ navigation }) => {
     onPress: () => console.log('Button Custom Pressed'),
   };
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
+    checkConnection();
+
     const _session = async () => {
       const getUserId = await AsyncStorage.getItem('id')
       const getUserKelas = await AsyncStorage.getItem('kelas')
@@ -44,7 +54,7 @@ const KelasTambah = ({ navigation }) => {
 
   const onPressAddKelas = () => {
     if (judul && tanggal && waktu) {
-      fetch('http://192.168.43.39:1010/api/kelas', {
+      fetch('https://tubespamqrcode.herokuapp.com/api/kelas', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -64,12 +74,12 @@ const KelasTambah = ({ navigation }) => {
           if (responseJson.status) {
             ToastAndroid.show("Sukses membuat kelas", ToastAndroid.SHORT);
             navigation.navigate("Profil")
+            setPelajaran('pilih')
+            setJudul('')
+            setWaktu(null)
           }
         })
 
-      setPelajaran('pilih')
-      setJudul('')
-      setWaktu(null)
     } else {
       Alert.alert(
         "Error",
@@ -160,11 +170,9 @@ const KelasTambah = ({ navigation }) => {
               />
             </View>
             <DateTimeChooser getTanggal={getTanggal} getWaktu={getWaktu} mode="time" title={waktu ? tanggal + ' - ' + waktu : 'Pilih waktu'} />
-            {/* <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} /> */}
             <TouchableHighlight {...touchProps} onPress={onPressAddKelas}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
-            {/* <DateTimeChooser mode="date" title="Pilih tanggal"/> */}
           </ScrollView>
         </View>
       </View>
