@@ -33,7 +33,7 @@ const KelasDetail = ({ route, navigation }) => {
   const [kelas, setKelas] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.43.152:1010/api/kelas/show', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/show', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -61,7 +61,7 @@ const KelasDetail = ({ route, navigation }) => {
           text: "OK",
           style: "cancel",
           onPress: () => {
-            fetch('http://192.168.43.152:1010/api/kelas/destroy', {
+            fetch('https://tubespamqrcode.herokuapp.com/api/kelas/destroy', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',

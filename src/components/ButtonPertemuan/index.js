@@ -15,7 +15,7 @@ import { ButtonCustom, QrCode } from '../../components';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const ButtonPertemuan = ({ topik, id, status, pelajaran, role }) => {
+const ButtonPertemuan = ({ topik, id, status, pelajaran, role, qr }) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
   var [isQrPress, setIsQrPress] = React.useState(false);
@@ -83,7 +83,7 @@ const ButtonPertemuan = ({ topik, id, status, pelajaran, role }) => {
         <Modal isVisible={isModalVisible}>
           <ScrollView style={styles.modal}>
             {/* Ganti gambar di bagian source */}
-            <QrCode source={Mola} status={status} id={id} />
+            <QrCode source={qr} status={status} id={id} />
             <Text style={styles.nip}>Pelajaran</Text>
             <Text style={styles.nama}>
               {pelajaran}

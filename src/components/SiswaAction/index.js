@@ -33,7 +33,7 @@ const SiswaAction = ({ status, id, nama, email, kelas }) => {
                     text: "OK",
                     style: "cancel",
                     onPress: () => {
-                        fetch('http://192.168.43.152:1010/api/user/destroy', {
+                        fetch('https://tubespamqrcode.herokuapp.com/api/user/destroy', {
                             method: 'POST',
                             headers: {
                                 Accept: 'application/json',

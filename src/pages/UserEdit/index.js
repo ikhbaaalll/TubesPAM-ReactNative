@@ -38,7 +38,7 @@ const UserEdit = ({ route, navigation }) => {
         if (nama && email && password && passwordValidation) {
             if (re.test(email)) {
                 if (password == passwordValidation) {
-                    fetch('http://192.168.43.152:1010/api/user/update', {
+                    fetch('https://tubespamqrcode.herokuapp.com/api/user/update', {
                         method: 'POST',
                         headers: {
                             Accept: 'application/json',

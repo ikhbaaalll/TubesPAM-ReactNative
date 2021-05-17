@@ -29,10 +29,14 @@ const ButtonIcon = ({ title, value, source, type, userKelas }) => {
     navigation.navigate('UserTambah', { userKelas: userKelas });
   }
 
+  const addKelas = () => {
+    navigation.navigate('KelasTambah');
+  }
+
   return (
-    <TouchableHighlight {...touchProps} onPress={type == 'kelas' ? viewSiswa : type == 'tambahsiswa' ? addSiswa : viewKelas}>
+    <TouchableHighlight {...touchProps} onPress={type == 'kelas' ? viewSiswa : type == 'tambahsiswa' ? addSiswa : type == 'tambahkelas' ? addKelas : viewKelas}>
       <View style={styles.container(isPress)}>
-        {type == 'menu' ? (
+        {type == 'tambahsiswa' || type == 'tambahkelas' ? (
           <Feather
             name={source}
             style={styles.icon}

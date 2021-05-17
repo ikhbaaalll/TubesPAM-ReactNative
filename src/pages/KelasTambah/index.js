@@ -44,7 +44,7 @@ const KelasTambah = ({ navigation }) => {
 
   const onPressAddKelas = () => {
     if (judul && tanggal && waktu) {
-      fetch('http://192.168.43.39:1010/api/kelas', {
+      fetch('https://tubespamqrcode.herokuapp.com/api/kelas', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -64,12 +64,12 @@ const KelasTambah = ({ navigation }) => {
           if (responseJson.status) {
             ToastAndroid.show("Sukses membuat kelas", ToastAndroid.SHORT);
             navigation.navigate("Profil")
+            setPelajaran('pilih')
+            setJudul('')
+            setWaktu(null)
           }
         })
 
-      setPelajaran('pilih')
-      setJudul('')
-      setWaktu(null)
     } else {
       Alert.alert(
         "Error",
@@ -160,11 +160,9 @@ const KelasTambah = ({ navigation }) => {
               />
             </View>
             <DateTimeChooser getTanggal={getTanggal} getWaktu={getWaktu} mode="time" title={waktu ? tanggal + ' - ' + waktu : 'Pilih waktu'} />
-            {/* <PickDateTime getWaktu={setWaktu} getTanggal={setTanggal} /> */}
             <TouchableHighlight {...touchProps} onPress={onPressAddKelas}>
               <ButtonCustom title="Tambah" isPress={isPress} />
             </TouchableHighlight>
-            {/* <DateTimeChooser mode="date" title="Pilih tanggal"/> */}
           </ScrollView>
         </View>
       </View>
