@@ -98,7 +98,7 @@ const KelasDetail = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" id={JSON.stringify(kelasId).replace(/\"/g, "")} />
         <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>
