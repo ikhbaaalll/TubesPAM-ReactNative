@@ -5,10 +5,11 @@ import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 const QrCode = ({ source, status, id }) => {
   const [isEnabled, setIsEnabled] = useState(status == '1' ? true : false);
   const [stat, setStat] = useState(status)
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
     setStat(isEnabled ? '1' : '0')
-    fetch('http://192.168.43.152:1010/api/kelas/status', {
+    fetch('http://192.168.43.39:1010/api/kelas/status', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -29,7 +30,7 @@ const QrCode = ({ source, status, id }) => {
     <View style={styles.modalBox}>
       <ImageBackground
         //ganti Mola sama gambar Qr Code
-        source={source}
+        source={{ uri: source }}
         style={styles.imageBox}></ImageBackground>
       <Switch
         trackColor={{ false: '#f58ca1', true: ColorPrimary }}
