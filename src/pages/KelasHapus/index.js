@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, ScrollView, TouchableHighlight} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonCustom} from '../../components';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableHighlight } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonCustom } from '../../components';
 
 class KelasHapus extends Component {
   state = {
@@ -10,7 +10,7 @@ class KelasHapus extends Component {
     selectedValue: '',
   };
 
-// ini example
+  // ini example
   GetFakeData = () => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
@@ -27,7 +27,7 @@ class KelasHapus extends Component {
   }
 
   render() {
-    
+
 
     let myUsers = this.state.userValues.map((myValue, myIndex) => {
       return (
@@ -68,7 +68,7 @@ class KelasHapus extends Component {
                 Hubungi Sumiartuti untuk menghapus pertemuan
               </Text>
               <TouchableHighlight >
-                <ButtonCustom title="Hapus" type="hapus"/>
+                <ButtonCustom title="Hapus" type="hapus" />
               </TouchableHighlight>
             </View>
           </ScrollView>

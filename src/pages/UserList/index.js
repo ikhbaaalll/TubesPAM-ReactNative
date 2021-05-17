@@ -10,7 +10,7 @@ const UserList = ({ route, navigation }) => {
   const [listUser, setListUser] = useState([])
 
   useEffect(() => {
-    fetch('http://192.168.43.152:1010/api/user/index', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/user/index', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -22,7 +22,7 @@ const UserList = ({ route, navigation }) => {
     })
       .then(response => response.json())
       .then(responseJson => {
-        setListUser(responseJson), console.log(responseJson)
+        setListUser(responseJson)
       })
 
   }, [])

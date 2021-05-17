@@ -12,7 +12,7 @@ const StatusKomponen = ({ status, id }) => {
   useEffect(() => {
     const _isAdmin = async () => {
       const getUserId = await AsyncStorage.getItem('id')
-      fetch('http://192.168.43.152:1010/api/isadmin', {
+      fetch('https://tubespamqrcode.herokuapp.com/api/isadmin', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -27,7 +27,7 @@ const StatusKomponen = ({ status, id }) => {
     }
     _isAdmin()
 
-    fetch('http://192.168.43.152:1010/api/kelas/get/presensi', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/get/presensi', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -38,7 +38,7 @@ const StatusKomponen = ({ status, id }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setHadir(responseJson.status == '1' ? 'hadir' : 'tidak'), console.log(responseJson.status) })
+      .then((responseJson) => { setHadir(responseJson.status == '1' ? 'hadir' : 'tidak') })
   }, [hadir])
 
   var touchProps = {
@@ -51,7 +51,7 @@ const StatusKomponen = ({ status, id }) => {
 
   const isPresent = () => {
     if (admin == '1') {
-      fetch('http://192.168.43.152:1010/api/kelas/update/presensi', {
+      fetch('https://tubespamqrcode.herokuapp.com/api/kelas/update/presensi', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

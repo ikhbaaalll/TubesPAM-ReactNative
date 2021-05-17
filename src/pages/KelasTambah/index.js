@@ -44,7 +44,7 @@ const KelasTambah = ({ navigation }) => {
 
   const onPressAddKelas = () => {
     if (judul && tanggal && waktu) {
-      fetch('http://192.168.43.39:1010/api/kelas', {
+      fetch('https://tubespamqrcode.herokuapp.com/api/kelas', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

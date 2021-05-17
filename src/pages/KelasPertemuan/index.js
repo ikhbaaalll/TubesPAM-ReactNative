@@ -27,7 +27,7 @@ const KelasPertemuan = ({ route, navigation }) => {
     }
     _getUser()
 
-    fetch('http://192.168.43.39:1010/api/kelas/list', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/list', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

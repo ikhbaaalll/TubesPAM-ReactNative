@@ -9,7 +9,7 @@ const QrCode = ({ source, status, id }) => {
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
     setStat(isEnabled ? '1' : '0')
-    fetch('http://192.168.43.39:1010/api/kelas/status', {
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/status', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
