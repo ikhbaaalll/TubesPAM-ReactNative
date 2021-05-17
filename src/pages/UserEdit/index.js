@@ -129,7 +129,7 @@ const UserEdit = ({ route, navigation }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <ArrowBack />
-                <Text style={styles.text_header}>Tambah Siswa</Text>
+                <Text style={styles.text_header}>Edit Siswa</Text>
             </View>
             <View style={styles.footer}>
                 <View style={styles.boxShadow}></View>
