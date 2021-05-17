@@ -7,6 +7,7 @@ import NetInfo from "@react-native-community/netinfo";
 
 const KelasList = () => {
   const [kelas, setKelas] = useState('1')
+  const [isAdmin, setIsAdmin] = useState('0')
 
   const checkConnection = NetInfo.addEventListener(state => {
     if (!state.isConnected) {
@@ -19,14 +20,29 @@ const KelasList = () => {
 
     const _getKelas = async () => {
       const user = await AsyncStorage.getItem('kelas')
+      const id = await AsyncStorage.getItem('id')
+
       if (!user) {
         navigation.replace('Login')
         setKelas(null)
       }
+
       setKelas(user)
+
+      fetch('https://tubespamqrcode.herokuapp.com/api/isadmin', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      })
+        .then(response => response.json())
+        .then((responseJson) => { setIsAdmin(responseJson.role) })
     }
     _getKelas()
-
   }, [])
 
   return (
@@ -39,7 +55,7 @@ const KelasList = () => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <ButtonIcon title="Tambah" type="tambahkelas" source="plus" />
+            {isAdmin == '1' && <ButtonIcon title="Tambah" type="tambahkelas" source="plus" />}
             <ButtonIcon title="MTK" value="Matematika" userKelas={kelas} />
             <ButtonIcon title="B.Ing" value="Bahasa Inggris" userKelas={kelas} />
             <ButtonIcon title="B.Ind" value="Bahasa Indonesia" userKelas={kelas} />
