@@ -5,6 +5,7 @@ import {
   View,
   Alert,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
