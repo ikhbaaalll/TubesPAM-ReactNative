@@ -4,19 +4,27 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight,
-  TouchableOpacity,
+  BackHandler
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonPertemuan, ArrowBack } from '../../components';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasPertemuan = ({ route, navigation }) => {
   const [listKelas, setListKelas] = useState([])
   const { kelas, userKelas } = route.params
   const [user, setUser] = useState('2')
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
+    checkConnection();
+
     const _getUser = async () => {
       const role = await AsyncStorage.getItem('role')
       if (!role) {
