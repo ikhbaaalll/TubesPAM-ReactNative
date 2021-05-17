@@ -10,6 +10,7 @@ import QrCode from './QrCode';
 import ItemSiswa from './ItemSiswa'
 import Siswa from './Siswa'
 import SiswaAction from './SiswaAction'
+import Donut from './Donut'
 
 export {
   BottomNavigator,
@@ -23,5 +24,6 @@ export {
   QrCode,
   ItemSiswa,
   Siswa,
-  SiswaAction
+  SiswaAction,
+  Donut
 };
