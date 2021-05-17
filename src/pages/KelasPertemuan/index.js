@@ -58,7 +58,7 @@ const KelasPertemuan = ({ route, navigation }) => {
             {
               listKelas ?
                 listKelas.map(data => {
-                  return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} />
+                  return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} qr={data.qr_code} />
                 }) : null
             }
           </View>
