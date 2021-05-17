@@ -3,14 +3,14 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
+  Alert,
   TouchableHighlight,
 } from 'react-native';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-const ArrowBack = ({user, status, type}) => {
+const ArrowBack = ({ user, status, type, id }) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
 
@@ -22,7 +22,7 @@ const ArrowBack = ({user, status, type}) => {
     onPress: () => navigation.goBack(),
   };
 
-  const IconHeaderSiswa = ({title, lambang, styleIcon, styleText}) => {
+  const IconHeaderSiswa = ({ title, lambang, styleIcon, styleText }) => {
     return (
       <View style={styles.keteranganBox}>
         <Text style={status == 'selesai' ? styles.text : styles.textRed}>
@@ -52,8 +52,48 @@ const ArrowBack = ({user, status, type}) => {
       onShowUnderlay: () => setisPressHapus(true),
       onPress: () => console.log(isPressHapus),
     };
+
+    const deleteKelas = () => {
+      Alert.alert(
+        "Peringatan",
+        "Yakin ingin menghapus kelas?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            style: "cancel",
+            onPress: () => {
+              fetch('https://tubespamqrcode.herokuapp.com/api/kelas/destroy', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  id: id,
+                }),
+              })
+                .then(response => response.json())
+                .then(responseJson => {
+                  if (responseJson == 'Sukses') {
+                    ToastAndroid.show("Sukses menghapus kelas", ToastAndroid.SHORT);
+                    navigation.navigate("Kelas")
+                  }
+                })
+            },
+          },
+        ],
+        {
+          cancelable: true
+        }
+      );
+    }
+
     return (
-      <TouchableHighlight {...touchPropsHapus}>
+      <TouchableHighlight {...touchPropsHapus} onPress={user == 'guru' && status == 'belum' ? deleteKelas : null}>
         <View style={styles.keteranganBox(isPressHapus)}>
           <Text style={status == 'selesai' ? styles.text : styles.textRed}>
             {title}

@@ -4,12 +4,12 @@ import {
   Text,
   View,
   ScrollView,
-  ImageBackground,
+  BackHandler,
   Alert
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ArrowBack, ItemSiswa } from '../../components';
-import Feather from 'react-native-vector-icons/Feather';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasDetail = ({ route, navigation }) => {
   const [hadir, setHadir] = useState(true);
@@ -32,7 +32,15 @@ const KelasDetail = ({ route, navigation }) => {
   });
   const [kelas, setKelas] = useState([]);
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
+    checkConnection();
+
     fetch('https://tubespamqrcode.herokuapp.com/api/kelas/show', {
       method: 'POST',
       headers: {
@@ -90,7 +98,7 @@ const KelasDetail = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" />
+        <ArrowBack user={role == '1' ? 'guru' : 'siswa'} status={role == '1' ? statusKelas == '0' ? 'belum' : 'selesai' : presensi == '0' ? 'belum' : 'selesai'} type="detail" id={JSON.stringify(kelasId).replace(/\"/g, "")} />
         <Text style={styles.text_header}>{detail.nama}</Text>
       </View>
       <View style={styles.footer}>

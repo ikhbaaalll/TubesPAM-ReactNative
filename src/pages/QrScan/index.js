@@ -1,72 +1,97 @@
-import React, {Component} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
-  TouchableOpacity,
+  ToastAndroid,
+  BackHandler
 } from 'react-native';
-import {RNCamera} from 'react-native-camera';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
+import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from "@react-native-community/netinfo";
 
-export default class QrScan extends Component {
-  onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err),
-    );
-    alert("nais");
+export default function index() {
+  const [user, setUser] = useState()
+
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
+  useEffect(() => {
+    checkConnection();
+
+    const _getUser = async () => {
+      const id = await AsyncStorage.getItem('id')
+      if (!id) {
+        navigation.replace('Login')
+        setUser(null)
+      }
+      setUser(id)
+    }
+    _getUser()
+
+  }, [])
+
+  const onSuccess = (e) => {
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/siswa/presensi', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: e.data,
+        user: user,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson) {
+          ToastAndroid.show("Presensi berhasil", ToastAndroid.SHORT);
+        } else {
+          ToastAndroid.show("Presensi gagal", ToastAndroid.SHORT);
+        }
+      }).catch(e => {
+        ToastAndroid.show("Presensi gagal, pastikan barcode sesuai", ToastAndroid.SHORT)
+      })
   };
 
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <QRCodeScanner
-          onRead={this.onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
-          // topContent={
-          //   <Text style={styles.centerText}>
-          //     Go to{' '}
-          //     <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-          //     your computer and scan the QR code.
-          //   </Text>
-          // }
-          // bottomContent={
-          //   <TouchableOpacity style={styles.buttonTouchable}>
-          //     <Text style={styles.buttonText}>OK. Got it!</Text>
-          //   </TouchableOpacity>
-          // }
-        />
-        {/* <RNCamera style={{...StyleSheet.absoluteFill}} /> */}
+  return (
+    <View style={{ flex: 1 }}>
+      <QRCodeScanner
+        onRead={onSuccess}
+      />
+      <View
+        style={{
+          ...StyleSheet.absoluteFill,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <View
           style={{
-            ...StyleSheet.absoluteFill,
-            alignItems: 'center',
-            justifyContent: 'center',
+            width: width / 1.5,
+            height: width / 1.5,
           }}>
-          <View
-            style={{
-              width: width / 1.5,
-              height: width / 1.5,
-              // backgroundColor: ColorPrimary,
-            }}>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={styles.boxTopLeft} />
-              <View style={styles.boxFlex} />
-              <View style={styles.boxTopRight} />
-            </View>
-            <View style={styles.boxFlex}></View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={styles.boxBottomLeft} />
-              <View style={styles.boxFlex} />
-              <View style={styles.boxBottomRight} />
-            </View>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={styles.boxTopLeft} />
+            <View style={styles.boxFlex} />
+            <View style={styles.boxTopRight} />
+          </View>
+          <View style={styles.boxFlex}></View>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={styles.boxBottomLeft} />
+            <View style={styles.boxFlex} />
+            <View style={styles.boxBottomRight} />
           </View>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   centerText: {
