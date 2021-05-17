@@ -45,10 +45,9 @@ const MainApp = () => {
   }, [])
 
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="QrScan">
+    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Kelas">
       <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
-      {/* {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={UserKelas} style={styles.menu} />} */}
-      <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} />
+      {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={UserKelas} style={styles.menu} />}
       <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
     </Tab.Navigator>
   );
