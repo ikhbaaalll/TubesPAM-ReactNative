@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, BackHandler } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ButtonIcon, ArrowBack } from '../../components';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasList = () => {
   const [kelas, setKelas] = useState('1')
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
+    checkConnection();
+
     const _getKelas = async () => {
       const user = await AsyncStorage.getItem('kelas')
       if (!user) {
