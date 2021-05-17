@@ -4,12 +4,12 @@ import {
   Text,
   View,
   ScrollView,
-  ImageBackground,
+  BackHandler,
   Alert
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import { ArrowBack, ItemSiswa } from '../../components';
-import Feather from 'react-native-vector-icons/Feather';
+import NetInfo from "@react-native-community/netinfo";
 
 const KelasDetail = ({ route, navigation }) => {
   const [hadir, setHadir] = useState(true);
@@ -32,7 +32,15 @@ const KelasDetail = ({ route, navigation }) => {
   });
   const [kelas, setKelas] = useState([]);
 
+  const checkConnection = NetInfo.addEventListener(state => {
+    if (!state.isConnected) {
+      BackHandler.exitApp();
+    }
+  });
+
   useEffect(() => {
+    checkConnection();
+
     fetch('https://tubespamqrcode.herokuapp.com/api/kelas/show', {
       method: 'POST',
       headers: {
