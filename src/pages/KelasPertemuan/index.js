@@ -65,8 +65,8 @@ const KelasPertemuan = ({ route, navigation }) => {
           <View style={styles.footerBox}>
             {
               listKelas ?
-                listKelas.map(data => {
-                  return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} qr={data.qr_code} />
+                listKelas.reverse().map((data, index) => {
+                  return <ButtonPertemuan key={data.id} index={index} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} qr={data.qr_code} />
                 }) : null
             }
           </View>
