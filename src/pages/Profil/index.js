@@ -16,19 +16,42 @@ import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
 import {Donut} from '../../components';
 
-const Profil = ({navigation}) => {
-  const [idUser, setIdUser] = useState('1');
-  const [kelas, setKelas] = useState('1');
-  const [detail, setDetail] = useState();
-  var [isPress, setIsPress] = useState(false);
-
-  var touchProps = {
-    activeOpacity: 1,
-    underlayColor: '#fff',
-    onHideUnderlay: () => setIsPress(false),
-    onShowUnderlay: () => setIsPress(true),
-    onPress: () => console.log('Button statuskomponen Pressed'),
-  };
+const Profil = ({ navigation }) => {
+  const [idUser, setIdUser] = useState('1')
+  const [kelas, setKelas] = useState('1')
+  const [detail, setDetail] = useState({
+    user: {
+      nama: '',
+      kelas: ''
+    },
+    presensiMatematika: 0,
+    absenMatematika: 0,
+    persentaseMatematika: 0,
+    presensiBahasaInggris: 0,
+    absenBahasaInggris: 0,
+    presentaseBahasaInggris: 0,
+    presensiBahasaIndonesia: 0,
+    absenBahasaIndonesia: 0,
+    presentaseBahasaIndonesia: 0,
+    presensiIpa: 0,
+    absenIpa: 0,
+    presentaseIpa: 0,
+    presensiIps: 0,
+    absenIps: 0,
+    presentaseIps: 0,
+    presensiSeni: 0,
+    absenSeni: 0,
+    presentaseSeni: 0,
+    presensiPkn: 0,
+    absenPkn: 0,
+    presentasePkn: 0,
+    presensiOlahraga: 0,
+    absenOlahraga: 0,
+    presentaseOlahraga: 0,
+    totalPresensi: 0,
+    total: 0,
+    totalPresentasi: 0
+  })
 
   const logout = () => {
     Alert.alert(
@@ -86,10 +109,9 @@ const Profil = ({navigation}) => {
       }),
     })
       .then(response => response.json())
-      .then(responseJson => {
-        setDetail(responseJson), console.log(responseJson);
-      });
-  }, []);
+      .then((responseJson) => { setDetail(responseJson), console.log(responseJson) })
+
+  }, [idUser, kelas])
 
   return (
     <View style={styles.container}>
@@ -104,31 +126,25 @@ const Profil = ({navigation}) => {
             {/* <FontAwesome name="user-circle" color={ColorPrimary} size={100} /> */}
             {/* <Donut
               key={100}
-              percentage={40}
+              percentage={detail.totalPresentasi}
               color={ColorPrimary}
               delay={8000}
               max={100}
               radius={100}
-            /> */}
-            <Text style={styles.nama}>Fikri Halim Ch</Text>
-            <Text style={styles.kelas}>Kelas 1</Text>
-            <Text style={styles.kelas}>Kehadiran 45/85</Text>
-            <TouchableHighlight onPress={logout} {...touchProps}>
-              <View style={styles.logoutButton(isPress)}>
-                <Feather name="log-out" style={styles.logoutIcon} />
-                <Text style={styles.logoutText}>Logout</Text>
-              </View>
-            </TouchableHighlight>
+            />
+            <Text style={styles.nama}>{detail.user.nama}</Text>
+            <Text style={styles.kelas}>Kelas {detail.user.kelas}</Text>
+            <Text style={styles.kelas}>Kehadiran {detail.totalPresensi}/{detail.total}</Text>
           </View>
           <View style={styles.footerBot}>
             {/* map dari sini untuk 1 matapelajaran */}
             {/* <View style={styles.hadirBox}>
               <View style={{flex: 3, marginRight: 20}}>
                 <Text style={styles.pelajaran}>
-                  Pendidikan Jasmani Olahraga dan Kesehatan
+                  Matematika
                 </Text>
-                <Text style={styles.siswa}>Hadir: 4</Text>
-                <Text style={styles.siswa}>Tidak Hadir: 10</Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiMatematika}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenMatematika}</Text>
               </View>
               <View
                 style={{
@@ -138,7 +154,175 @@ const Profil = ({navigation}) => {
                 }}>
                 <Donut
                   key={99}
-                  percentage={4}
+                  percentage={detail.persentaseMatematika}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  Bahasa Inggris
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiBahasaInggris}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenBahasaInggris}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseBahasaInggris}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  Bahasa Indonesia
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiBahasaIndonesia}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenBahasaIndonesia}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseBahasaIndonesia}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  IPA
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiIpa}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenIpa}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseIpa}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  IPS
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiIps}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenIps}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseIps}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  Seni Budaya
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiSeni}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenSeni}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseSeni}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  PKN
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiPkn}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenPkn}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentasePkn}
+                  color={ColorPrimary}
+                  delay={8000}
+                  max={10}
+                  radius={40}
+                />
+              </View>
+            </View>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
+                <Text style={styles.pelajaran}>
+                  Pendidikan Jasmani Olahraga dan Kesehatan
+                </Text>
+                <Text style={styles.siswa}>Hadir: {detail.presensiOlahraga}</Text>
+                <Text style={styles.siswa}>Tidak Hadir: {detail.absenOlahraga}</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Donut
+                  key={99}
+                  percentage={detail.presentaseOlahraga}
                   color={ColorPrimary}
                   delay={8000}
                   max={10}
