@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,11 +12,11 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
-import {Donut} from '../../components';
+import { Donut } from '../../components';
 
-const Profil = ({navigation}) => {
+const ProfilGuru = ({ navigation }) => {
   const [idUser, setIdUser] = useState('1');
   const [kelas, setKelas] = useState('1');
   const [detail, setDetail] = useState({
@@ -24,6 +24,7 @@ const Profil = ({navigation}) => {
       nama: '',
       kelas: '',
     },
+    siswa: 0,
     presensiMatematika: 0,
     absenMatematika: 0,
     persentaseMatematika: 0,
@@ -59,7 +60,6 @@ const Profil = ({navigation}) => {
     underlayColor: '#fff',
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
-    onPress: () => console.log('Button statuskomponen Pressed'),
   };
   const logout = () => {
     Alert.alert(
@@ -125,7 +125,7 @@ const Profil = ({navigation}) => {
     })
       .then(response => response.json())
       .then(responseJson => {
-        setDetail(responseJson), console.log(responseJson);
+        setDetail(responseJson);
       });
   }, [idUser, kelas]);
 
@@ -143,7 +143,7 @@ const Profil = ({navigation}) => {
             <Text style={styles.nama}>{detail.user.nama}</Text>
             <Text style={styles.kelas}>Guru Kelas {detail.user.kelas}</Text>
             <Text style={styles.kelas}>
-              Siswa pada Kelas {detail.user.kelas} : 40
+              Siswa pada Kelas {detail.user.kelas} : {detail.siswa}
             </Text>
             <TouchableHighlight onPress={logout} {...touchProps}>
               <View style={styles.logoutButton(isPress)}>
@@ -158,7 +158,7 @@ const Profil = ({navigation}) => {
   );
 };
 
-export default Profil;
+export default ProfilGuru;
 
 const styles = StyleSheet.create({
   container: {

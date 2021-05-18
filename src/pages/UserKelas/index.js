@@ -5,7 +5,7 @@ import { ButtonIcon, ArrowBack } from '../../components';
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from "@react-native-community/netinfo";
 
-const UserKelas = () => {
+const UserKelas = ({ navigation }) => {
   const [kelas, setKelas] = useState('1')
 
   const checkConnection = NetInfo.addEventListener(state => {
