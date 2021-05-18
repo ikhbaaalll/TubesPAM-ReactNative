@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap",
   },
   footerBox: {
-    paddingTop: 30,
+    paddingVertical: 30,
   },
   profilBox: {
     marginBottom: 20,
