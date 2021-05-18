@@ -20,15 +20,15 @@ const DateTimeChooser = ({ mode, title, getTanggal, getWaktu }) => {
 
   const handleConfirm = date => {
     const tahun = date.getFullYear();
-    const bulan = date.getMonth();
-    const bulan2 = bulan > 10 ? bulan : '0' + bulan;
+    const bulan = date.getMonth() + 1;
+    const bulan2 = bulan >= 10 ? bulan : '0' + bulan;
     const tang = date.getDate();
     const tang2 = tang > 10 ? tang : '0' + tang;
 
     const jam = date.getHours()
-    const jam2 = jam > 10 ? jam : '0' + jam;
+    const jam2 = jam >= 10 ? jam : '0' + jam;
     const menit = date.getMinutes()
-    const menit2 = menit > 10 ? menit : '0' + menit;
+    const menit2 = menit >= 10 ? menit : '0' + menit;
     setTanggal(tahun + '-' + bulan2 + '-' + tang2)
     setWaktu(jam2 + ':' + menit2)
     getTanggal(tanggal)

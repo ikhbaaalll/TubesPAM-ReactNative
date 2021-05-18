@@ -61,8 +61,12 @@ const StatusKomponen = ({ status, id }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setHadir(responseJson.status == '1' ? 'hadir' : 'tidak') })
-    ToastAndroid.show("Sukses merubah status", ToastAndroid.SHORT)
+      .then((responseJson) => {
+        setHadir(responseJson.status == '1' ? 'hadir' : 'tidak')
+        const hadir = responseJson.status == '1' ? "hadir" : "tidak hadir"
+        const text = "Sukses merubah status menjadi " + hadir
+        ToastAndroid.show(text, ToastAndroid.LONG)
+      })
   }
 
   return (

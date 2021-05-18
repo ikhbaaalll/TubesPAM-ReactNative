@@ -46,7 +46,7 @@ const SiswaAction = ({ status, id, nama, email, kelas }) => {
                             .then(response => response.json())
                             .then(responseJson => {
                                 if (responseJson == 'Sukses') {
-                                    ToastAndroid.show("Sukses menambah siswa", ToastAndroid.SHORT);
+                                    ToastAndroid.show("Sukses menghapus siswa", ToastAndroid.SHORT);
                                     navigation.navigate('Home')
                                 }
                             })

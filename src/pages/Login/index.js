@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   BackHandler,
-  StatusBar,
+  StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,12 +20,6 @@ import NetInfo from "@react-native-community/netinfo";
 export default function index({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
-  const [user, setUser] = useState({
-    nama: '',
-    kelas: '',
-    role: '',
-    email: '',
-  });
 
   const checkConnection = NetInfo.addEventListener(state => {
     if (!state.isConnected) {
@@ -38,46 +32,45 @@ export default function index({ navigation }) {
   }, [])
 
   const onLoginPressed = () => {
-    const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
-    }
-    fetch('https://tubespamqrcode.herokuapp.com/api/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value,
-      }),
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.user != null) {
-          setUser({
-            nama: responseJson.user.nama,
-            kelas: responseJson.user.kelas,
-            role: responseJson.user.role,
-            email: responseJson.user.email,
-          });
+    const re = /\S+@\S+\.\S+/
 
-          AsyncStorage.setItem('id', responseJson.user.id.toString());
-          AsyncStorage.setItem('email', responseJson.user.email);
-          AsyncStorage.setItem('nama', responseJson.user.nama);
-          AsyncStorage.setItem('kelas', responseJson.user.kelas.toString());
-          AsyncStorage.setItem('role', responseJson.user.role.toString());
-          setEmail({ ...email, value: '' })
-          setPassword({ ...password, value: '' })
-          navigation.navigate('MainApp');
-        } else {
-          alert("Akun tidak terdaftar");
-          setEmail({ ...email, error: responseJson.error });
-        }
-      });
+    if (email.value && password.value) {
+      if (re.test(email.value)) {
+
+        fetch('https://tubespamqrcode.herokuapp.com/api/login', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email.value,
+            password: password.value,
+          }),
+        })
+          .then(response => response.json())
+          .then(responseJson => {
+            if (responseJson.user != null) {
+              AsyncStorage.setItem('id', responseJson.user.id.toString());
+              AsyncStorage.setItem('email', responseJson.user.email);
+              AsyncStorage.setItem('nama', responseJson.user.nama);
+              AsyncStorage.setItem('kelas', responseJson.user.kelas.toString());
+              AsyncStorage.setItem('role', responseJson.user.role.toString());
+              setEmail({ ...email, value: '' })
+              setPassword({ ...password, value: '' })
+              navigation.navigate('Kelas');
+            } else {
+              alert("Akun tidak terdaftar");
+              setEmail({ ...email, error: responseJson.error });
+            }
+          });
+      } else {
+        alert("Email tidak sesuai");
+      }
+    } else {
+      alert("Masukkan seluruh field");
+    }
+
   };
 
   return (

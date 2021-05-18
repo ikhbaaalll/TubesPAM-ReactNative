@@ -127,7 +127,7 @@ const KelasDetail = ({ route, navigation }) => {
                 {detail.waktu}
               </Text>
             </View>
-            <Text style={styles.kehadiran}>Kehadiran Siswa {totalHadir}/{totalPresensi}</Text>
+            <Text style={styles.kehadiran}>Kehadiran Siswa {totalHadir}/{total}</Text>
             {/* untuk siswa hadir */}
             {
               kelas.map(data => {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap",
   },
   footerBox: {
-    paddingTop: 30,
+    paddingVertical: 30,
   },
   profilBox: {
     marginBottom: 20,
