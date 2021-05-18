@@ -48,7 +48,6 @@ const KelasList = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack />
         <Text style={styles.text_header}>Mata Pelajaran</Text>
       </View>
       <View style={styles.footer}>
@@ -62,7 +61,7 @@ const KelasList = () => {
             <ButtonIcon title="IPA" value="Ilmu Pengetahuan Alam" userKelas={kelas} />
             <ButtonIcon title="IPS" value="Ilmu Pengetahuan Sosial" userKelas={kelas} />
             <ButtonIcon title="PKN" value="Pendidikan Pancasila dan Kewarganegaraan" userKelas={kelas} />
-            <ButtonIcon title="Seni" value="Seni Budaya" />
+            <ButtonIcon title="Seni" value="Seni Budaya" userKelas={kelas}/>
             <ButtonIcon title="PJOK" value="Pendidikan Jasmani, Olahraga, dan Kesehatan" userKelas={kelas} />
           </View>
         </ScrollView>
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     // alignItems: 'center',
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     borderColor: ColorPrimary,
     shadowColor: '#005343',
     // marginBottom: 20,
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

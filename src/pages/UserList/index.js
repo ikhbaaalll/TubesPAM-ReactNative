@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderColor: ColorPrimary,
     shadowColor: '#005343',
     // marginBottom: 20,
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

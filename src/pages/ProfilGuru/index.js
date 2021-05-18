@@ -143,7 +143,7 @@ const ProfilGuru = ({ navigation }) => {
             <Text style={styles.nama}>{detail.user.nama}</Text>
             <Text style={styles.kelas}>Guru Kelas {detail.user.kelas}</Text>
             <Text style={styles.kelas}>
-              Siswa pada kelas {detail.user.kelas} : {detail.siswa}
+              Siswa kelas {detail.user.kelas} :   {detail.siswa} orang
             </Text>
             <TouchableHighlight onPress={logout} {...touchProps}>
               <View style={styles.logoutButton(isPress)}>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   logoutButton: isPress => ({
-    marginTop: 20,
+    marginVertical: 20,
     backgroundColor: '#fff',
     borderColor: ColorPrimary,
     borderRadius: 5,

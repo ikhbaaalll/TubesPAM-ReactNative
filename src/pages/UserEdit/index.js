@@ -138,7 +138,7 @@ const UserEdit = ({route, navigation}) => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <Text style={styles.title}>Nama</Text>
+            <Text style={styles.title}>Nama <Text style={{fontSize:11, fontWeight:'bold',color:'#d4d4d4'}}>(tidak dapat diedit)</Text></Text>
             <View style={styles.containerInput}>
               <View>
                 <TextInput
@@ -147,7 +147,6 @@ const UserEdit = ({route, navigation}) => {
                   label="nama"
                   autoCapitalize="none"
                   style={styles.textInputDisable}
-                  placeholder="Nama Lengkap Siswa"
                   editable={false}
                 />
               </View>
@@ -158,7 +157,7 @@ const UserEdit = ({route, navigation}) => {
                 style={{marginBottom: 5}}
               />
             </View>
-            <Text style={styles.title}>E-mail</Text>
+            <Text style={styles.title}>E-mail <Text style={{fontSize:11, fontWeight:'bold',color:'#d4d4d4'}}>(tidak dapat diedit)</Text></Text>
             <View style={styles.containerInput}>
               <View>
                 <TextInput
@@ -171,7 +170,6 @@ const UserEdit = ({route, navigation}) => {
                   textContentType="emailAddress"
                   keyboardType="email-address"
                   style={styles.textInputDisable}
-                  placeholder="E-mail Siswa"
                   editable={false}
                 />
               </View>
@@ -182,7 +180,7 @@ const UserEdit = ({route, navigation}) => {
                 style={{marginBottom: 5}}
               />
             </View>
-            <Text style={styles.title}>Password</Text>
+            <Text style={styles.title}>Password Baru</Text>
             <View style={styles.containerInput}>
               <View>
                 <TextInput
@@ -192,7 +190,7 @@ const UserEdit = ({route, navigation}) => {
                   onChangeText={text => setPassword(text)}
                   secureTextEntry
                   style={styles.textInput}
-                  placeholder="Password"
+                  placeholder="Password Baru"
                 />
               </View>
               <FontAwesome name="key" color={ColorPrimary} size={25} />
@@ -267,7 +265,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

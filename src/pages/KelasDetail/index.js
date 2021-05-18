@@ -186,6 +186,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 50,
     borderColor: ColorPrimary,
+    shadowColor: '#31ec92',
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

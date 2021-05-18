@@ -32,7 +32,6 @@ const UserKelas = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack />
         <Text style={styles.text_header}>Kelas Siswa</Text>
       </View>
       <View style={styles.footer}>
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     // alignItems: 'center',
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     borderColor: ColorPrimary,
     shadowColor: '#005343',
     // marginBottom: 20,
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

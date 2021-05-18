@@ -92,10 +92,19 @@ const Profil = ({ navigation }) => {
   });
 
   const cekWarna = (persentase) => {
-    if (persentase > 70) return ColorPrimary;
-    if (persentase > 50) return 'tomato';
-    if (persentase > 0) return 'red';
-    return ColorSecondary;
+    if (persentase > 90) return ColorPrimary;
+    if (persentase > 70) return '#a8e386';
+    if (persentase > 50) return '#cfed6b';
+    if (persentase > 30) return '#ffe979';
+    if (persentase > 20) return '#ffb879';
+    if (persentase > 0) return '#F53B57';
+    // if (persentase > 90) return ColorPrimary;
+    // if (persentase > 70) return '#a8e386';
+    // if (persentase > 50) return '#cfed6b';
+    // if (persentase > 30) return '#ffda79';
+    // if (persentase > 20) return '#ff793f';
+    // if (persentase > 0) return '#F53B57';
+    return '#a1a1a1';
   };
 
   useEffect(() => {
@@ -152,7 +161,7 @@ const Profil = ({ navigation }) => {
             <Text style={styles.nama}>{detail.user.nama}</Text>
             <Text style={styles.kelas}>Kelas {detail.user.kelas}</Text>
             <Text style={styles.kelas}>
-              Kehadiran {detail.totalPresensi}/{detail.total}
+              Kehadiran   {detail.totalPresensi} / {detail.total}
             </Text>
             <TouchableHighlight {...touchProps} onPress={logout}>
               <View style={styles.logoutButton(isPress)}>
@@ -265,7 +274,7 @@ const Profil = ({ navigation }) => {
             </View>
             <View style={styles.hadirBox}>
               <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>IPS</Text>
+                <Text style={styles.pelajaran}>Ilmu Pengetahuan Sosial</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiIps}</Text>
                 <Text style={styles.siswa}>Tidak Hadir: {detail.absenIps}</Text>
               </View>
@@ -311,7 +320,7 @@ const Profil = ({ navigation }) => {
             </View>
             <View style={styles.hadirBox}>
               <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>PKN</Text>
+                <Text style={styles.pelajaran}>Pendidikan Kewarganegaraan</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiPkn}</Text>
                 <Text style={styles.siswa}>Tidak Hadir: {detail.absenPkn}</Text>
               </View>
@@ -403,7 +412,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',
@@ -423,6 +432,7 @@ const styles = StyleSheet.create({
   },
   footerBot: {
     marginTop: 40,
+    paddingHorizontal: 5,
   },
   hadirBox: {
     flexDirection: 'row',
