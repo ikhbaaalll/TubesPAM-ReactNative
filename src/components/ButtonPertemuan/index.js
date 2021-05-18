@@ -67,7 +67,7 @@ const ButtonPertemuan = ({ topik, id, status, pelajaran, role, qr }) => {
     <TouchableHighlight {...touchProps} onPress={KelasDetail}>
       <View style={isPress ? styles.containerBaru : styles.container}>
         <View style={styles.containerDalam}>
-          <Text style={styles.title}>{topik}</Text>
+          <Text style={styles.title}>Topik</Text>
           <Text style={styles.topik}>{topik}</Text>
         </View>
         {
