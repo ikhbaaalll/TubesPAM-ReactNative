@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, BackHandler, Button, ScrollView, Alert } from 'react-native'
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  BackHandler,
+  Button,
+  ScrollView,
+  Alert,
+  TouchableHighlight,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import { Donut } from '../../components';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import Feather from 'react-native-vector-icons/Feather';
+import {Donut} from '../../components';
 
 const Profil = ({ navigation }) => {
   const [idUser, setIdUser] = useState('1')
@@ -45,16 +55,16 @@ const Profil = ({ navigation }) => {
 
   const logout = () => {
     Alert.alert(
-      "Peringatan",
-      "Yakin ingin keluar?",
+      'Peringatan',
+      'Yakin ingin keluar?',
       [
         {
-          text: "Cancel",
-          style: "cancel",
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: "OK",
-          style: "cancel",
+          text: 'OK',
+          style: 'cancel',
           onPress: async () => {
             await AsyncStorage.clear();
             navigation.navigate('Login');
@@ -62,8 +72,8 @@ const Profil = ({ navigation }) => {
         },
       ],
       {
-        cancelable: true
-      }
+        cancelable: true,
+      },
     );
   };
 
@@ -77,15 +87,15 @@ const Profil = ({ navigation }) => {
     checkConnection();
 
     const _getUser = async () => {
-      const user = await AsyncStorage.getItem('id')
-      const getKelas = await AsyncStorage.getItem('kelas')
+      const user = await AsyncStorage.getItem('id');
+      const getKelas = await AsyncStorage.getItem('kelas');
       if (!user) {
-        navigation.replace('Login')
+        navigation.replace('Login');
       }
-      setIdUser(user)
-      setKelas(getKelas)
-    }
-    _getUser()
+      setIdUser(user);
+      setKelas(getKelas);
+    };
+    _getUser();
 
     fetch('https://tubespamqrcode.herokuapp.com/api/user/show', {
       method: 'POST',
@@ -95,7 +105,7 @@ const Profil = ({ navigation }) => {
       },
       body: JSON.stringify({
         id: idUser,
-        kelas: kelas
+        kelas: kelas,
       }),
     })
       .then(response => response.json())
@@ -114,7 +124,7 @@ const Profil = ({ navigation }) => {
           <View style={styles.footerBox}></View>
           <View style={styles.footerTop}>
             {/* <FontAwesome name="user-circle" color={ColorPrimary} size={100} /> */}
-            <Donut
+            {/* <Donut
               key={100}
               percentage={detail.totalPresentasi}
               color={ColorPrimary}
@@ -128,8 +138,8 @@ const Profil = ({ navigation }) => {
           </View>
           <View style={styles.footerBot}>
             {/* map dari sini untuk 1 matapelajaran */}
-            <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
+            {/* <View style={styles.hadirBox}>
+              <View style={{flex: 3, marginRight: 20}}>
                 <Text style={styles.pelajaran}>
                   Matematika
                 </Text>
@@ -319,18 +329,14 @@ const Profil = ({ navigation }) => {
                   radius={40}
                 />
               </View>
-            </View>
+            </View> */}
             {/* sampai sini */}
-          </View>
-          <View>
-            <Text>Profil Page</Text>
-            <Button onPress={logout} title="Logout"></Button>
           </View>
         </ScrollView>
       </View>
     </View>
   );
-}
+};
 
 export default Profil;
 
@@ -407,6 +413,29 @@ const styles = StyleSheet.create({
   },
   siswa: {
     color: '#4d4d4d',
+    fontSize: 15,
+  },
+  logoutButton: isPress => ({
+    marginTop: 20,
+    backgroundColor: '#fff',
+    borderColor: ColorPrimary,
+    borderRadius: 5,
+    borderWidth: 2,
+    flexDirection: 'row',
+    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    elevation: isPress ? 0 : 6,
+  }),
+  logoutText: {
+    color: ColorPrimary,
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  logoutIcon: {
+    marginRight: 10,
+    color: ColorPrimary,
     fontSize: 15,
   },
 });

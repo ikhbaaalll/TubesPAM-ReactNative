@@ -1,13 +1,26 @@
 import React from 'react';
-import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { IconBlackboard } from '../../assets';
-import { useNavigation } from '@react-navigation/native';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {Mtk, Bind, Bing, Ipa, Ips, Pjok, Pkn, Seni} from '../../assets';
+import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 
-const ButtonIcon = ({ title, value, source, type, userKelas }) => {
+const ButtonIcon = ({title, value, source, type, userKelas}) => {
   var [isPress, setIsPress] = React.useState(false);
   const navigation = useNavigation();
+
+  const Icon = () => {
+    if (title == 'MTK') return <Mtk />;
+    if (title == "B.Ing") return <Bing/>;
+    if (title == "B.Ind") return <Bind/>;
+    if (title == 'IPA') return <Ipa />;
+    if (title == 'IPS') return <Ips />;
+    if (title == 'PKN') return <Pkn />;
+    if (title == 'Seni') return <Seni />;
+    if (title == 'PJOK') return <Pjok />;
+
+    return Icon;
+  };
 
   var touchProps = {
     activeOpacity: 1,
@@ -18,31 +31,38 @@ const ButtonIcon = ({ title, value, source, type, userKelas }) => {
   };
 
   const viewKelas = () => {
-    navigation.navigate('KelasPertemuan', { kelas: value, userKelas: userKelas });
+    navigation.navigate('KelasPertemuan', {kelas: value, userKelas: userKelas});
   };
 
   const viewSiswa = () => {
-    navigation.navigate('UserList', { kelas: value, userKelas: userKelas });
-  }
+    navigation.navigate('UserList', {kelas: value, userKelas: userKelas});
+  };
 
   const addSiswa = () => {
-    navigation.navigate('UserTambah', { userKelas: userKelas });
-  }
+    navigation.navigate('UserTambah', {userKelas: userKelas});
+  };
 
   const addKelas = () => {
     navigation.navigate('KelasTambah');
-  }
+  };
 
   return (
-    <TouchableHighlight {...touchProps} onPress={type == 'kelas' ? viewSiswa : type == 'tambahsiswa' ? addSiswa : type == 'tambahkelas' ? addKelas : viewKelas}>
+    <TouchableHighlight
+      {...touchProps}
+      onPress={
+        type == 'kelas'
+          ? viewSiswa
+          : type == 'tambahsiswa'
+          ? addSiswa
+          : type == 'tambahkelas'
+          ? addKelas
+          : viewKelas
+      }>
       <View style={styles.container(isPress)}>
         {type == 'tambahsiswa' || type == 'tambahkelas' ? (
-          <Feather
-            name={source}
-            style={styles.icon}
-          />
+          <Feather name={source} style={styles.icon} />
         ) : (
-          <IconBlackboard />
+          <Icon />
         )}
         <Text style={styles.text(isPress)}>{title}</Text>
       </View>
@@ -70,6 +90,7 @@ const styles = StyleSheet.create({
     elevation: isPress ? 0 : 10,
   }),
   text: isPress => ({
+    marginTop: 5,
     fontWeight: 'bold',
     color: ColorPrimary,
     fontSize: isPress ? 17 : 20,
@@ -78,5 +99,5 @@ const styles = StyleSheet.create({
     color: ColorPrimary,
     fontSize: 50,
     // backgroundColor: ColorPrimary,
-  }
+  },
 });

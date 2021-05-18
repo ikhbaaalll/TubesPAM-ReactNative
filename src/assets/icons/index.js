@@ -10,6 +10,7 @@ import QrcodeActive from './qrcodeActive.svg';
 import Home from './home.svg';
 import HomeActive from './homeActive.svg';
 
+export * from './matapelajaran'
 export {
   IconScan,
   IconScanActive,
