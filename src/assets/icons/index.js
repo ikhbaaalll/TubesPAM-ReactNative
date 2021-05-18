@@ -7,8 +7,8 @@ import IconclassActive from './classActive.svg';
 import IconBlackboard from './blackboard.svg';
 import Qrcode from './qrcode.svg';
 import QrcodeActive from './qrcodeActive.svg';
-import Home from './home.svg';
-import HomeActive from './homeActive.svg';
+import Siswa from './siswa.svg';
+import SiswaActive from './siswaActive.svg';
 
 export * from './matapelajaran'
 export {
@@ -21,6 +21,6 @@ export {
   IconBlackboard,
   Qrcode,
   QrcodeActive,
-  Home,
-  HomeActive,
+  Siswa,
+  SiswaActive,
 };
