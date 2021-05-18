@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,15 +9,15 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
-import {ButtonCustom, ArrowBack} from '../../components';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
+import { ButtonCustom, ArrowBack } from '../../components';
 
-const UserEdit = ({route, navigation}) => {
+const UserEdit = ({ route, navigation }) => {
   const [isPress, setIsPress] = React.useState(false);
-  const {id, getNama, getEmail, getKelas} = route.params;
+  const { id, getNama, getEmail, getKelas } = route.params;
   const [kelas, setKelas] = useState(
     JSON.stringify(getKelas).replace(/\"/g, ''),
   );
@@ -39,82 +39,50 @@ const UserEdit = ({route, navigation}) => {
   const addSiswa = () => {
     const re = /\S+@\S+\.\S+/;
 
-    if (nama && email && password && passwordValidation) {
-      if (re.test(email)) {
-        if (password == passwordValidation) {
-          fetch('https://tubespamqrcode.herokuapp.com/api/user/update', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              id: id,
-              nama: nama,
-              email: email,
-              password: password,
-              kelas: kelas,
-            }),
-          })
-            .then(response => response.json())
-            .then(responseJson => {
-              if (responseJson.error == null) {
-                ToastAndroid.show('Sukses mengubah siswa', ToastAndroid.SHORT);
-                setNama('');
-                setEmail('');
-                setPassword('');
-                setPasswordValidation('');
-                navigation.navigate('Kelas');
-              } else {
-                Alert.alert(
-                  'Error',
-                  'Email telah digunakan',
-                  [
-                    {
-                      text: 'OK',
-                      style: 'cancel',
-                    },
-                  ],
-                  {
-                    cancelable: true,
-                  },
-                );
-              }
-            });
-        } else {
-          Alert.alert(
-            'Error',
-            'Password tidak sesuai',
-            [
+    if (password == passwordValidation) {
+      fetch('https://tubespamqrcode.herokuapp.com/api/user/update', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          nama: nama,
+          email: email,
+          password: password,
+          kelas: kelas,
+        }),
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.error == null) {
+            ToastAndroid.show('Sukses mengubah siswa', ToastAndroid.SHORT);
+            setNama('');
+            setEmail('');
+            setPassword('');
+            setPasswordValidation('');
+            navigation.navigate('Kelas');
+          } else {
+            Alert.alert(
+              'Error',
+              'Email telah digunakan',
+              [
+                {
+                  text: 'OK',
+                  style: 'cancel',
+                },
+              ],
               {
-                text: 'OK',
-                style: 'cancel',
+                cancelable: true,
               },
-            ],
-            {
-              cancelable: true,
-            },
-          );
-        }
-      } else {
-        Alert.alert(
-          'Error',
-          'Email tidak sesuai',
-          [
-            {
-              text: 'OK',
-              style: 'cancel',
-            },
-          ],
-          {
-            cancelable: true,
-          },
-        );
-      }
+            );
+          }
+        });
     } else {
       Alert.alert(
         'Error',
-        'Masukkan seluruh field',
+        'Password tidak sesuai',
         [
           {
             text: 'OK',
@@ -126,7 +94,7 @@ const UserEdit = ({route, navigation}) => {
         },
       );
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -138,7 +106,7 @@ const UserEdit = ({route, navigation}) => {
         <View style={styles.boxShadow}></View>
         <ScrollView>
           <View style={styles.footerBox}>
-            <Text style={styles.title}>Nama <Text style={{fontSize:11, fontWeight:'bold',color:'#d4d4d4'}}>(tidak dapat diedit)</Text></Text>
+            <Text style={styles.title}>Nama <Text style={{ fontSize: 11, fontWeight: 'bold', color: '#d4d4d4' }}>(tidak dapat diedit)</Text></Text>
             <View style={styles.containerInput}>
               <View>
                 <TextInput
@@ -154,10 +122,10 @@ const UserEdit = ({route, navigation}) => {
                 name="user"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
-            <Text style={styles.title}>E-mail <Text style={{fontSize:11, fontWeight:'bold',color:'#d4d4d4'}}>(tidak dapat diedit)</Text></Text>
+            <Text style={styles.title}>E-mail <Text style={{ fontSize: 11, fontWeight: 'bold', color: '#d4d4d4' }}>(tidak dapat diedit)</Text></Text>
             <View style={styles.containerInput}>
               <View>
                 <TextInput
@@ -177,7 +145,7 @@ const UserEdit = ({route, navigation}) => {
                 name="mail"
                 color={ColorPrimary}
                 size={25}
-                style={{marginBottom: 5}}
+                style={{ marginBottom: 5 }}
               />
             </View>
             <Text style={styles.title}>Password Baru</Text>
