@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,9 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
-import {Donut} from '../../components';
+import { Donut } from '../../components';
 
 const Profil = ({ navigation }) => {
   const [idUser, setIdUser] = useState('1')
@@ -52,6 +52,7 @@ const Profil = ({ navigation }) => {
     total: 0,
     totalPresentasi: 0
   })
+  const [isPress, setIsPress] = useState(false);
 
   const logout = () => {
     Alert.alert(
@@ -113,6 +114,14 @@ const Profil = ({ navigation }) => {
 
   }, [idUser, kelas])
 
+  const touchProps = {
+    activeOpacity: 1,
+    underlayColor: '#fff',
+    onHideUnderlay: () => setIsPress(false),
+    onShowUnderlay: () => setIsPress(true),
+    onPress: logout,
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -123,8 +132,8 @@ const Profil = ({ navigation }) => {
         <ScrollView>
           <View style={styles.footerBox}></View>
           <View style={styles.footerTop}>
-            {/* <FontAwesome name="user-circle" color={ColorPrimary} size={100} /> */}
-            {/* <Donut
+            <FontAwesome name="user-circle" color={ColorPrimary} size={100} />
+            <Donut
               key={100}
               percentage={detail.totalPresentasi}
               color={ColorPrimary}
@@ -138,8 +147,8 @@ const Profil = ({ navigation }) => {
           </View>
           <View style={styles.footerBot}>
             {/* map dari sini untuk 1 matapelajaran */}
-            {/* <View style={styles.hadirBox}>
-              <View style={{flex: 3, marginRight: 20}}>
+            <View style={styles.hadirBox}>
+              <View style={{ flex: 3, marginRight: 20 }}>
                 <Text style={styles.pelajaran}>
                   Matematika
                 </Text>
@@ -329,7 +338,13 @@ const Profil = ({ navigation }) => {
                   radius={40}
                 />
               </View>
-            </View> */}
+            </View>
+            <TouchableHighlight {...touchProps}>
+              <View style={styles.logoutButton(isPress)}>
+                <Feather name="log-out" style={styles.logoutIcon} />
+                <Text style={styles.logoutText}>Logout</Text>
+              </View>
+            </TouchableHighlight>
             {/* sampai sini */}
           </View>
         </ScrollView>
