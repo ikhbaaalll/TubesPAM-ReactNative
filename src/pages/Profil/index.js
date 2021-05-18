@@ -16,13 +16,13 @@ import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
 import {Donut} from '../../components';
 
-const Profil = ({ navigation }) => {
-  const [idUser, setIdUser] = useState('1')
-  const [kelas, setKelas] = useState('1')
+const Profil = ({navigation}) => {
+  const [idUser, setIdUser] = useState('1');
+  const [kelas, setKelas] = useState('1');
   const [detail, setDetail] = useState({
     user: {
       nama: '',
-      kelas: ''
+      kelas: '',
     },
     presensiMatematika: 0,
     absenMatematika: 0,
@@ -50,9 +50,17 @@ const Profil = ({ navigation }) => {
     presentaseOlahraga: 0,
     totalPresensi: 0,
     total: 0,
-    totalPresentasi: 0
-  })
+    totalPresentasi: 0,
+  });
+  var [isPress, setIsPress] = useState(false);
 
+  var touchProps = {
+    activeOpacity: 1,
+    underlayColor: '#fff',
+    onHideUnderlay: () => setIsPress(false),
+    onShowUnderlay: () => setIsPress(true),
+    onPress: () => console.log('Button statuskomponen Pressed'),
+  };
   const logout = () => {
     Alert.alert(
       'Peringatan',
@@ -83,6 +91,13 @@ const Profil = ({ navigation }) => {
     }
   });
 
+  const cekWarna = (persentase) => {
+    if (persentase > 70) return ColorPrimary;
+    if (persentase > 50) return 'tomato';
+    if (persentase > 0) return 'red';
+    return ColorSecondary;
+  };
+
   useEffect(() => {
     checkConnection();
 
@@ -109,9 +124,10 @@ const Profil = ({ navigation }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson), console.log(responseJson) })
-
-  }, [idUser, kelas])
+      .then(responseJson => {
+        setDetail(responseJson), console.log(responseJson);
+      });
+  }, [idUser, kelas]);
 
   return (
     <View style={styles.container}>
@@ -124,27 +140,37 @@ const Profil = ({ navigation }) => {
           <View style={styles.footerBox}></View>
           <View style={styles.footerTop}>
             {/* <FontAwesome name="user-circle" color={ColorPrimary} size={100} /> */}
-            {/* <Donut
+            <Donut
               key={100}
-              percentage={detail.totalPresentasi}
-              color={ColorPrimary}
+              percentage={detail.totalPresensi}
+              color={cekWarna(detail.totalPresentasi)}
               delay={8000}
-              max={100}
+              max={detail.total}
               radius={100}
             />
             <Text style={styles.nama}>{detail.user.nama}</Text>
             <Text style={styles.kelas}>Kelas {detail.user.kelas}</Text>
-            <Text style={styles.kelas}>Kehadiran {detail.totalPresensi}/{detail.total}</Text>
+            <Text style={styles.kelas}>
+              Kehadiran {detail.totalPresensi}/{detail.total}
+            </Text>
+            <TouchableHighlight onPress={logout} {...touchProps}>
+              <View style={styles.logoutButton(isPress)}>
+                <Feather name="log-out" style={styles.logoutIcon} />
+                <Text style={styles.logoutText}>Logout</Text>
+              </View>
+            </TouchableHighlight>
           </View>
           <View style={styles.footerBot}>
             {/* map dari sini untuk 1 matapelajaran */}
-            {/* <View style={styles.hadirBox}>
+            <View style={styles.hadirBox}>
               <View style={{flex: 3, marginRight: 20}}>
-                <Text style={styles.pelajaran}>
-                  Matematika
+                <Text style={styles.pelajaran}>Matematika</Text>
+                <Text style={styles.siswa}>
+                  Hadir: {detail.presensiMatematika}
                 </Text>
-                <Text style={styles.siswa}>Hadir: {detail.presensiMatematika}</Text>
-                <Text style={styles.siswa}>Tidak Hadir: {detail.absenMatematika}</Text>
+                <Text style={styles.siswa}>
+                  Tidak Hadir: {detail.absenMatematika}
+                </Text>
               </View>
               <View
                 style={{
@@ -154,21 +180,23 @@ const Profil = ({ navigation }) => {
                 }}>
                 <Donut
                   key={99}
-                  percentage={detail.persentaseMatematika}
-                  color={ColorPrimary}
+                  percentage={detail.presensiMatematika}
+                  color={cekWarna(detail.persentaseMatematika)}
                   delay={8000}
-                  max={10}
+                  max={((detail.presensiMatematika + detail.absenMatematika) > 0) ? detail.presensiMatematika + detail.absenMatematika : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  Bahasa Inggris
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>Bahasa Inggris</Text>
+                <Text style={styles.siswa}>
+                  Hadir: {detail.presensiBahasaInggris}
                 </Text>
-                <Text style={styles.siswa}>Hadir: {detail.presensiBahasaInggris}</Text>
-                <Text style={styles.siswa}>Tidak Hadir: {detail.absenBahasaInggris}</Text>
+                <Text style={styles.siswa}>
+                  Tidak Hadir: {detail.absenBahasaInggris}
+                </Text>
               </View>
               <View
                 style={{
@@ -177,22 +205,24 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseBahasaInggris}
-                  color={ColorPrimary}
+                  key={98}
+                  percentage={detail.presensiBahasaInggris}
+                  color={cekWarna(detail.persentaseBahasaInggris)}
                   delay={8000}
-                  max={10}
+                  max={((detail.presentaseBahasaInggris + detail.absenBahasaInggris) > 0) ? detail.presentaseBahasaInggris + detail.absenBahasaInggris : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  Bahasa Indonesia
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>Bahasa Indonesia</Text>
+                <Text style={styles.siswa}>
+                  Hadir: {detail.presensiBahasaIndonesia}
                 </Text>
-                <Text style={styles.siswa}>Hadir: {detail.presensiBahasaIndonesia}</Text>
-                <Text style={styles.siswa}>Tidak Hadir: {detail.absenBahasaIndonesia}</Text>
+                <Text style={styles.siswa}>
+                  Tidak Hadir: {detail.absenBahasaIndonesia}
+                </Text>
               </View>
               <View
                 style={{
@@ -201,20 +231,18 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseBahasaIndonesia}
-                  color={ColorPrimary}
+                  key={97}
+                  percentage={detail.presensiBahasaIndonesia}
+                  color={cekWarna(detail.persentaseBahasaIndonesia)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presensiBahasaIndonesia + detail.absenBahasaIndonesia) > 0 ? detail.presensiBahasaIndonesia + detail.absenBahasaIndonesia : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  IPA
-                </Text>
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>Ilmu Pengetahuan Alam</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiIpa}</Text>
                 <Text style={styles.siswa}>Tidak Hadir: {detail.absenIpa}</Text>
               </View>
@@ -225,20 +253,18 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseIpa}
-                  color={ColorPrimary}
+                  key={96}
+                  percentage={detail.presensiIpa}
+                  color={cekWarna(detail.presentaseIpa)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presentaseIpa + detail.absenIpa) > 0 ? detail.presentaseIpa + detail.absenIpa : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  IPS
-                </Text>
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>IPS</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiIps}</Text>
                 <Text style={styles.siswa}>Tidak Hadir: {detail.absenIps}</Text>
               </View>
@@ -249,22 +275,22 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseIps}
-                  color={ColorPrimary}
+                  key={95}
+                  percentage={detail.presensiIps}
+                  color={cekWarna(detail.persentaseIps)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presensiIps + detail.absenIps) > 0 ? detail.presensiIps + detail.absenIps : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  Seni Budaya
-                </Text>
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>Seni Budaya</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiSeni}</Text>
-                <Text style={styles.siswa}>Tidak Hadir: {detail.absenSeni}</Text>
+                <Text style={styles.siswa}>
+                  Tidak Hadir: {detail.absenSeni}
+                </Text>
               </View>
               <View
                 style={{
@@ -273,20 +299,18 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseSeni}
-                  color={ColorPrimary}
+                  key={94}
+                  percentage={detail.presensiSeni}
+                  color={cekWarna(detail.persentaseSeni)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presentaseSeni + detail.absenSeni) > 0 ? detail.presentaseSeni + detail.absenSeni : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
-                <Text style={styles.pelajaran}>
-                  PKN
-                </Text>
+              <View style={{flex: 3, marginRight: 20}}>
+                <Text style={styles.pelajaran}>PKN</Text>
                 <Text style={styles.siswa}>Hadir: {detail.presensiPkn}</Text>
                 <Text style={styles.siswa}>Tidak Hadir: {detail.absenPkn}</Text>
               </View>
@@ -297,22 +321,26 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentasePkn}
-                  color={ColorPrimary}
+                  key={93}
+                  percentage={detail.presensiPkn}
+                  color={cekWarna(detail.persentasePkn)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presensiPkn + detail.absenPkn) > 0 ? detail.presensiPkn + detail.absenPkn : 1}
                   radius={40}
                 />
               </View>
             </View>
             <View style={styles.hadirBox}>
-              <View style={{ flex: 3, marginRight: 20 }}>
+              <View style={{flex: 3, marginRight: 20}}>
                 <Text style={styles.pelajaran}>
                   Pendidikan Jasmani Olahraga dan Kesehatan
                 </Text>
-                <Text style={styles.siswa}>Hadir: {detail.presensiOlahraga}</Text>
-                <Text style={styles.siswa}>Tidak Hadir: {detail.absenOlahraga}</Text>
+                <Text style={styles.siswa}>
+                  Hadir: {detail.presensiOlahraga}
+                </Text>
+                <Text style={styles.siswa}>
+                  Tidak Hadir: {detail.absenOlahraga}
+                </Text>
               </View>
               <View
                 style={{
@@ -321,15 +349,15 @@ const Profil = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Donut
-                  key={99}
-                  percentage={detail.presentaseOlahraga}
-                  color={ColorPrimary}
+                  key={92}
+                  percentage={detail.presensiOlahraga}
+                  color={cekWarna(detail.persentaseOlahraga)}
                   delay={8000}
-                  max={10}
+                  max={(detail.presensiOlahraga + detail.absenOlahraga) > 0 ? detail.presensiOlahraga + detail.absenOlahraga : 1}
                   radius={40}
                 />
               </View>
-            </View> */}
+            </View>
             {/* sampai sini */}
           </View>
         </ScrollView>

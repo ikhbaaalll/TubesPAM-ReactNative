@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Login,
   Profil,
+  ProfilGuru,
   QrScan,
   SplashScreen,
   Auth,
@@ -45,8 +46,8 @@ const MainApp = () => {
   }, [])
 
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName="Kelas">
-      <Tab.Screen name="Profil" component={Profil} style={styles.menu} />
+    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />} initialRouteName={user == '2' ? "QrScan" : "Kelas"}>
+      <Tab.Screen name="Profil" component={user == '2' ? Profil : ProfilGuru} style={styles.menu} />
       {user == '2' ? <Tab.Screen name="QrScan" component={QrScan} style={styles.menu} /> : <Tab.Screen name="Home" component={UserKelas} style={styles.menu} />}
       <Tab.Screen name="Kelas" component={KelasList} style={styles.menu} />
     </Tab.Navigator>

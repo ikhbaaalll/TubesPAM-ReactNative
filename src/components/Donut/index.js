@@ -8,9 +8,8 @@ import {
   StyleSheet,
 } from 'react-native';
 // import Constants from 'expo-constants';
-import Svg, { G, Circle, Rect } from 'react-native-svg';
-import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
-
+import Svg, {G, Circle, Rect} from 'react-native-svg';
+import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
@@ -23,7 +22,7 @@ export default function Donut({
   color,
   delay = 0,
   textColor,
-  max = 100
+  max = 100,
 }) {
   const animated = React.useRef(new Animated.Value(0)).current;
   const circleRef = React.useRef();
@@ -31,34 +30,39 @@ export default function Donut({
   const circumference = 2 * Math.PI * radius;
   const halfCircle = radius + strokeWidth;
 
-  const animation = (toValue) => {
+  const animation = toValue => {
     return Animated.timing(animated, {
       delay: 1000,
       toValue,
       duration,
       useNativeDriver: true,
       easing: Easing.out(Easing.ease),
-    }).start(() => {
-      animation(toValue === 0 ? percentage : 0);
-    });
+    }).start();
+    // }).start(() => {
+    //   animation(toValue === 0 ? percentage : 0);
+    // });
   };
 
   React.useEffect(() => {
     animation(percentage);
-    animated.addListener((v) => {
-      const maxPerc = 100 * v.value / max;
-      const strokeDashoffset = circumference - (circumference * maxPerc) / 100;
-      if (inputRef?.current) {
-        inputRef.current.setNativeProps({
-          text: `${Math.round(maxPerc)}%`,
-        });
-      }
-      if (circleRef?.current) {
-        circleRef.current.setNativeProps({
-          strokeDashoffset,
-        });
-      }
-    }, [max, percentage]);
+    animated.addListener(
+      v => {
+        const maxPerc = (100 * v.value) / max;
+        const strokeDashoffset =
+          circumference - (circumference * maxPerc) / 100;
+        if (inputRef?.current) {
+          inputRef.current.setNativeProps({
+            text: `${Math.round(maxPerc)}%`,
+          });
+        }
+        if (circleRef?.current) {
+          circleRef.current.setNativeProps({
+            strokeDashoffset,
+          });
+        }
+      },
+      [max, percentage],
+    );
 
     return () => {
       animated.removeAllListeners();
@@ -66,14 +70,12 @@ export default function Donut({
   });
 
   return (
-    <View style={{ width: radius * 2, height: radius * 2 }}>
+    <View style={{width: radius * 2, height: radius * 2}}>
       <Svg
         height={radius * 2}
         width={radius * 2}
         viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
-        <G
-          rotation="-90"
-          origin={`${halfCircle}, ${halfCircle}`}>
+        <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
           <Circle
             ref={circleRef}
             cx="50%"
@@ -105,7 +107,7 @@ export default function Donut({
         defaultValue="0"
         style={[
           StyleSheet.absoluteFillObject,
-          { fontSize: radius / 2, color: textColor ?? color },
+          {fontSize: radius / 2, color: textColor ?? color},
           styles.text,
         ]}
       />
@@ -114,5 +116,5 @@ export default function Donut({
 }
 
 const styles = StyleSheet.create({
-  text: { fontWeight: '900', textAlign: 'center' },
+  text: {fontWeight: '900', textAlign: 'center'},
 });
