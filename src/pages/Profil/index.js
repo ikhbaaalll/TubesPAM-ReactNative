@@ -129,13 +129,6 @@ const Profil = ({navigation}) => {
       });
   }, [idUser, kelas]);
 
-  const touchProps = {
-    activeOpacity: 1,
-    underlayColor: '#fff',
-    onHideUnderlay: () => setIsPress(false),
-    onShowUnderlay: () => setIsPress(true),
-    onPress: logout,
-  };
 
   return (
     <View style={styles.container}>
@@ -366,12 +359,6 @@ const Profil = ({navigation}) => {
                 />
               </View>
             </View>
-            <TouchableHighlight {...touchProps}>
-              <View style={styles.logoutButton(isPress)}>
-                <Feather name="log-out" style={styles.logoutIcon} />
-                <Text style={styles.logoutText}>Logout</Text>
-              </View>
-            </TouchableHighlight>
             {/* sampai sini */}
           </View>
         </ScrollView>
