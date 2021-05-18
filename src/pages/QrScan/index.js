@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
   ToastAndroid,
-  BackHandler
+  BackHandler,
 } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
 
 export default function index() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
 
   const checkConnection = NetInfo.addEventListener(state => {
     if (!state.isConnected) {
@@ -26,18 +26,17 @@ export default function index() {
     checkConnection();
 
     const _getUser = async () => {
-      const id = await AsyncStorage.getItem('id')
+      const id = await AsyncStorage.getItem('id');
       if (!id) {
-        navigation.replace('Login')
-        setUser(null)
+        navigation.replace('Login');
+        setUser(null);
       }
-      setUser(id)
-    }
-    _getUser()
+      setUser(id);
+    };
+    _getUser();
+  }, []);
 
-  }, [])
-
-  const onSuccess = (e) => {
+  const onSuccess = e => {
     fetch('https://tubespamqrcode.herokuapp.com/api/kelas/siswa/presensi', {
       method: 'POST',
       headers: {
@@ -52,38 +51,41 @@ export default function index() {
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson) {
-          ToastAndroid.show("Presensi berhasil", ToastAndroid.SHORT);
+          ToastAndroid.show('Presensi berhasil', ToastAndroid.SHORT);
         } else {
-          ToastAndroid.show("Presensi gagal", ToastAndroid.SHORT);
+          ToastAndroid.show('Presensi gagal', ToastAndroid.SHORT);
         }
-      }).catch(e => {
-        ToastAndroid.show("Presensi gagal, pastikan barcode sesuai", ToastAndroid.SHORT)
       })
+      .catch(e => {
+        ToastAndroid.show(
+          'Presensi gagal, pastikan barcode sesuai',
+          ToastAndroid.SHORT,
+        );
+      });
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <QRCodeScanner
-        onRead={onSuccess}
-      />
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <QRCodeScanner onRead={onSuccess} />
       <View
         style={{
           ...StyleSheet.absoluteFill,
           alignItems: 'center',
           justifyContent: 'center',
+          // backgroundColor: '#fff',
         }}>
         <View
           style={{
             width: width / 1.5,
             height: width / 1.5,
           }}>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={styles.boxTopLeft} />
             <View style={styles.boxFlex} />
             <View style={styles.boxTopRight} />
           </View>
           <View style={styles.boxFlex}></View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={styles.boxBottomLeft} />
             <View style={styles.boxFlex} />
             <View style={styles.boxBottomRight} />
