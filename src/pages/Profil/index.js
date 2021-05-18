@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,9 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ColorPrimary, ColorSecondary} from '../../utils/constanta';
+import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
-import {Donut} from '../../components';
+import { Donut } from '../../components';
 
 const Profil = ({navigation}) => {
   const [idUser, setIdUser] = useState('1');
@@ -128,6 +128,14 @@ const Profil = ({navigation}) => {
         setDetail(responseJson), console.log(responseJson);
       });
   }, [idUser, kelas]);
+
+  const touchProps = {
+    activeOpacity: 1,
+    underlayColor: '#fff',
+    onHideUnderlay: () => setIsPress(false),
+    onShowUnderlay: () => setIsPress(true),
+    onPress: logout,
+  };
 
   return (
     <View style={styles.container}>
@@ -358,6 +366,12 @@ const Profil = ({navigation}) => {
                 />
               </View>
             </View>
+            <TouchableHighlight {...touchProps}>
+              <View style={styles.logoutButton(isPress)}>
+                <Feather name="log-out" style={styles.logoutIcon} />
+                <Text style={styles.logoutText}>Logout</Text>
+              </View>
+            </TouchableHighlight>
             {/* sampai sini */}
           </View>
         </ScrollView>

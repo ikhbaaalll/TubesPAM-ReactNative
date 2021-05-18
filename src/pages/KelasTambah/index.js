@@ -53,7 +53,7 @@ const KelasTambah = ({ navigation }) => {
   }, [])
 
   const onPressAddKelas = () => {
-    if (judul && tanggal && waktu) {
+    if (judul && tanggal && waktu && pelajaran != 'pilih') {
       fetch('https://tubespamqrcode.herokuapp.com/api/kelas', {
         method: 'POST',
         headers: {
