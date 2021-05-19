@@ -31,6 +31,8 @@ const KelasDetail = ({ route, navigation }) => {
     }
   });
   const [kelas, setKelas] = useState([]);
+  const [totalHadir, setTotalHadir] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const checkConnection = NetInfo.addEventListener(state => {
     if (!state.isConnected) {
@@ -53,7 +55,7 @@ const KelasDetail = ({ route, navigation }) => {
       }),
     })
       .then(response => response.json())
-      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas), setTotalPresensi(responseJson.total) })
+      .then((responseJson) => { setDetail(responseJson.kelas), setKelas(responseJson.presensi), setStatus(responseJson.kelas.status), setPresensi(responseJson.status), setStatusKelas(responseJson.statusKelas), setTotalPresensi(responseJson.total), setTotal(responseJson.totalPresensi), setTotalHadir(responseJson.totalHadir) })
   }, [])
 
   const deleteKelas = () => {
@@ -125,7 +127,7 @@ const KelasDetail = ({ route, navigation }) => {
                 {detail.waktu}
               </Text>
             </View>
-            <Text style={styles.kehadiran}>Kehadiran Siswa</Text>
+            <Text style={styles.kehadiran}>Kehadiran Siswa {totalHadir}/{total}</Text>
             {/* untuk siswa hadir */}
             {
               kelas.map(data => {
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     // alignItems: 'center',
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap",
   },
   footerBox: {
-    paddingTop: 30,
+    paddingVertical: 30,
   },
   profilBox: {
     marginBottom: 20,
@@ -186,6 +188,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 50,
     borderColor: ColorPrimary,
+    shadowColor: '#31ec92',
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

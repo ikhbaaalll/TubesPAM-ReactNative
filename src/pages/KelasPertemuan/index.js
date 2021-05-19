@@ -65,8 +65,8 @@ const KelasPertemuan = ({ route, navigation }) => {
           <View style={styles.footerBox}>
             {
               listKelas ?
-                listKelas.map(data => {
-                  return <ButtonPertemuan key={data.id} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} qr={data.qr_code} />
+                listKelas.reverse().map((data, index) => {
+                  return <ButtonPertemuan key={data.id} index={index} topik={data.nama} id={data.id} status={data.status} pelajaran={data.pelajaran} role={user} qr={data.qr_code} />
                 }) : null
             }
           </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexDirection: 'row',
     paddingTop: 20,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

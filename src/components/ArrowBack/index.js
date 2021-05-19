@@ -5,6 +5,7 @@ import {
   View,
   Alert,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ArrowBack = ({ user, status, type, id }) => {
   var [isPress, setIsPress] = React.useState(false);
+  var [isPressHapus, setisPressHapus] = React.useState(false);
   const navigation = useNavigation();
 
   var touchProps = {
@@ -24,7 +26,7 @@ const ArrowBack = ({ user, status, type, id }) => {
 
   const IconHeaderSiswa = ({ title, lambang, styleIcon, styleText }) => {
     return (
-      <View style={styles.keteranganBox}>
+      <View style={styles.keteranganBox(isPressHapus)}>
         <Text style={status == 'selesai' ? styles.text : styles.textRed}>
           {title}
         </Text>
@@ -43,7 +45,6 @@ const ArrowBack = ({ user, status, type, id }) => {
     styleText,
     isPressHapus,
   }) => {
-    var [isPressHapus, setisPressHapus] = React.useState(false);
 
     var touchPropsHapus = {
       activeOpacity: 1,

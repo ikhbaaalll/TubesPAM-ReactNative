@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, ToastAndroid } from 'react-native';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -46,29 +46,31 @@ const StatusKomponen = ({ status, id }) => {
     underlayColor: '#fff',
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
-    onPress: () => console.log('Button statuskomponen Pressed'),
   };
 
   const isPresent = () => {
-    if (admin == '1') {
-      fetch('https://tubespamqrcode.herokuapp.com/api/kelas/update/presensi', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: id,
-          status: hadir == 'hadir' ? '0' : '1'
-        }),
+    fetch('https://tubespamqrcode.herokuapp.com/api/kelas/update/presensi', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+        status: hadir == 'hadir' ? '0' : '1'
+      }),
+    })
+      .then(response => response.json())
+      .then((responseJson) => {
+        setHadir(responseJson.status == '1' ? 'hadir' : 'tidak')
+        const hadir = responseJson.status == '1' ? "hadir" : "tidak hadir"
+        const text = "Sukses merubah status menjadi " + hadir
+        ToastAndroid.show(text, ToastAndroid.LONG)
       })
-        .then(response => response.json())
-        .then((responseJson) => { setHadir(responseJson.status == '1' ? 'hadir' : 'tidak') })
-    }
   }
 
   return (
-    <TouchableHighlight {...touchProps} onPress={isPresent}>
+    <TouchableHighlight {...touchProps} onPress={admin == '1' ? isPresent : null}>
       <Feather
         name={hadir == "hadir" ? "check-circle" : status == "edit" ? "edit" : "x-circle"}
         style={styles.check(isPress, hadir)}

@@ -53,7 +53,7 @@ const KelasTambah = ({ navigation }) => {
   }, [])
 
   const onPressAddKelas = () => {
-    if (judul && tanggal && waktu) {
+    if (judul && tanggal && waktu && pelajaran != 'pilih') {
       fetch('https://tubespamqrcode.herokuapp.com/api/kelas', {
         method: 'POST',
         headers: {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexDirection: 'row',
     paddingTop: 20,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: ColorPrimary,
     shadowColor: '#005343',
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

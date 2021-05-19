@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     // alignItems: 'center',
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderColor: ColorPrimary,
     shadowColor: '#005343',
     // marginBottom: 20,
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

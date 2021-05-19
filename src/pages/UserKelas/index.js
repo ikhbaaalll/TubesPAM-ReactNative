@@ -5,7 +5,7 @@ import { ButtonIcon, ArrowBack } from '../../components';
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from "@react-native-community/netinfo";
 
-const UserKelas = () => {
+const UserKelas = ({ navigation }) => {
   const [kelas, setKelas] = useState('1')
 
   const checkConnection = NetInfo.addEventListener(state => {
@@ -32,7 +32,6 @@ const UserKelas = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ArrowBack />
         <Text style={styles.text_header}>Kelas Siswa</Text>
       </View>
       <View style={styles.footer}>
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     borderColor: ColorPrimary,
     shadowColor: '#005343',
     // marginBottom: 20,
-    elevation: 15,
+    elevation: 8,
   },
   text_header: {
     color: '#fff',

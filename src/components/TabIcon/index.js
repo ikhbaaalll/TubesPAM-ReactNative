@@ -7,8 +7,8 @@ import {
   IconProfilActive,
   Iconclass,
   IconclassActive,
-  Home,
-  HomeActive
+  Siswa,
+  SiswaActive
 } from '../../assets';
 import { ColorPrimary, ColorSecondary } from '../../utils/constanta';
 
@@ -20,8 +20,8 @@ const TabIcon = ({ label, isFocused, onPress, onLongPress }) => {
       return isFocused ? <IconProfilActive /> : <IconProfil />;
     if (label == 'Kelas')
       return isFocused ? <IconclassActive /> : <Iconclass />;
-    if (label == 'Home')
-      return isFocused ? <HomeActive /> : <Home />;
+    if (label == 'Siswa')
+      return isFocused ? <SiswaActive /> : <Siswa />;
 
     return Icon;
   };
